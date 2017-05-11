@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
+    "local": "NODE_ENV=local node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
@@ -14,6 +15,11 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "axios": "^0.16.1",
+    "cookiesjs": "^1.4.2",
+    "qs": "^6.4.0",
+    "querystring": "^0.2.0",
+    "sweetalert2": "^6.6.2",
     "vue": "^2.2.6",
     "vue-router": "^2.3.1"
   },

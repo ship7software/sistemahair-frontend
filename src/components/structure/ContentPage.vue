@@ -14,7 +14,7 @@
         <span class="icon-bar"></span>
       </a>
 
-      <lte-header-menu :totalNewMessages="4"></lte-header-menu>
+      <lte-header-menu :totalNewMessages="4" :user="user"></lte-header-menu>
     </nav>
   </header>
 
@@ -30,8 +30,8 @@
           <img src="/static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <small>Glacielle Garcia</small>
-          <p>Natália Guerreiro</p>
+          <small>{{ user.tenantName }}</small>
+          <p>{{ user.name }}</p>
         </div>
       </div>
       <!-- search form -->
@@ -62,25 +62,12 @@
     <!-- /.content -->
   <!-- /.content-wrapper -->
 
-  <footer class="main-footer">
+  <footer v-if="false" class="main-footer">
     <div class="pull-right hidden-xs">
       <b>Versão</b> 0.0.0
     </div>
     <strong>Copyright &copy; 2017 <a target="_blank" href="http://ship7.com.br">Ship7 Software LTDA</a>.</strong> Todos os direitos reservados
   </footer>
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <lte-color-selector @change="changeColor"></lte-color-selector>
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg">
-  </div>  
 </lte-wrapper>
 </template>
 <script>
@@ -88,18 +75,22 @@ export default {
   name: 'ContentPage',
   data: function () {
     return {
-      config: this.$siteConfig
-    }
-  },
-  methods: {
-    changeColor (newColor) {
-      this.color = newColor
-      if (this.conditionalLogo[newColor]) {
-        this.logo = this.conditionalLogo[newColor]
-      } else {
-        this.logo = this.conditionalLogo.default
+      config: this.$siteConfig,
+      user: {
+        name: '',
+        tenantName: '',
+        perfilLink: this.$user.fields.perfilLink,
+        tenantLink: this.$user.fields.tenantLink,
+        logout: this.$user.logout
       }
     }
+  },
+  created () {
+    let perfil = this.$user.perfil()
+    this.user.name = perfil[this.$user.fields.name]
+    this.user.tenantName = perfil[this.$user.fields.tenant][this.$user.fields.tenantName]
+  },
+  methods: {
   }
 }
 </script>

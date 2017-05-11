@@ -25,24 +25,4 @@ footer {
     width: 100%
   }
 }
-
-@media (max-width: 767px) {
-  body, .form-control, .btn {
-    font-size: 16px
-  }
-
-  .form-control, .btn {
-    padding: 12px 12px !important;
-  }
-
-  .form-control-feedback {
-    height: 46px;
-    line-height: 46px;
-    width: 46px
-  }
-
-  .form-control {
-    height: 46px
-  }
-}
 </style>

@@ -3,5 +3,5 @@ var prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  API_URL: '"https://sistemahair-api-dev.mybluemix.net"'
+  API_URL: '"http://localhost:4000"'
 })

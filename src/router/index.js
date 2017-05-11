@@ -3,10 +3,10 @@ import Router from 'vue-router'
 import Login from '@/modules/Login'
 import Inicio from '@/modules/Inicio'
 import PageNotFound from '@/modules/404'
+import userService from './../services/user'
 
 Vue.use(Router)
-
-export default new Router({
+let router = new Router({
   mode: 'history',
   routes: [
     {
@@ -22,3 +22,13 @@ export default new Router({
     { path: '*', component: PageNotFound }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.path !== '/login' && !userService.isAuthenticated()) {
+    next('/login?to=' + to.path)
+  } else {
+    next()
+  }
+})
+
+export default router
