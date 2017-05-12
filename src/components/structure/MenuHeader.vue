@@ -43,13 +43,11 @@
             </p>
           </li>
           <!-- Menu Footer-->
-          <li class="user-footer">
-            <div class="pull-left">
-              <router-link :to="user.perfilLink" class="btn btn-default btn-flat">Perfil</router-link>
-              <router-link :to="user.tenantLink" class="btn btn-default btn-flat">Dados da Empresa</router-link>
-            </div>
-            <div class="pull-right">
-              <a @click="doLogout" class="btn btn-default btn-flat">Sair</a>
+          <li class="user-footer" style="text-align: center">
+            <div class="btn-group">
+              <button @click="$router.push(user.perfilLink)" type="button" class="btn btn-success" title="Desativar">Perfil</button>    
+              <button @click="$router.push(user.tenantLink)" type="button" class="btn btn-info" title="Desativar">Dados da Empresa</button>  
+              <button @click="doLogout" type="button" class="btn btn-danger" title="Desativar">Sair</button>    
             </div>
           </li>
         </ul>
@@ -92,5 +90,11 @@ export default {
 
   .navbar-nav > .user-menu > .dropdown-menu > li.user-header {
     height: 195px
+  }
+
+  @media(max-width: 330px) {
+    .navbar-nav > .user-menu {
+      display: none !important
+    }
   }
 </style>

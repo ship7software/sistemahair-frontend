@@ -2,7 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
 import api from './services/api'
 import { default as swal } from 'sweetalert2'
 import Axios from 'axios'
@@ -29,7 +28,7 @@ Axios.interceptors.response.use((response) => {
 }, (error) => {
   if (error.response.status === 401 && error.response.request.responseURL.indexOf('auth') === -1) {
     window.location.href = '/login'
-    window.location.reload()
+    // window.location.reload()
   }
   return Promise.reject(error)
 })
@@ -46,8 +45,15 @@ Vue.prototype.$user.fields = {
   tenantLink: '/usuario/empresa'
 }
 
+import MaskedInput from 'vue-text-mask'
+import VueNumeric from 'vue-numeric'
+
+Vue.component('input-mask', MaskedInput)
+Vue.component('vue-numeric', VueNumeric)
+
 import './components'
 import './config'
+import router from './router'
 import './../node_modules/sweetalert2/dist/sweetalert2.min.css'
 
 /* eslint-disable no-new */

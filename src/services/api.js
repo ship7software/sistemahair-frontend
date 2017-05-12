@@ -14,7 +14,9 @@ var generic = new Vue({
     },
     save (url, obj) {
       if (obj._id) {
-        return this.$http.put(url + '/' + obj._id, obj)
+        const id = obj._id
+        delete obj._id
+        return this.$http.put(url + '/' + id, obj)
       } else {
         return this.$http.post(url, obj)
       }

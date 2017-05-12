@@ -1,8 +1,10 @@
 <template>
 <lte-wrapper :color="config.color">
-
+  <div v-show="loading" class="overlay">
+    <i class="fa fa-refresh fa-spin"></i>
+  </div>
   <header class="main-header">
-    <lte-header-logo :image="config.logo" :name="config.name"></lte-header-logo>
+    <lte-header-logo class="logo-main" :image="config.logo" :name="config.name"></lte-header-logo>
 
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -13,7 +15,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-
+      <lte-header-logo class="logo-nav" :image="config.logo" :name="config.name"></lte-header-logo>
       <lte-header-menu :totalNewMessages="4" :user="user"></lte-header-menu>
     </nav>
   </header>
@@ -33,6 +35,11 @@
           <small>{{ user.tenantName }}</small>
           <p>{{ user.name }}</p>
         </div>
+        <div class="btn-group pull-right" style="margin-top: 10px">
+          <button @click="$router.push(user.perfilLink)" type="button" class="btn btn-success" title="Desativar"><i class="fa fa-user"></i>  Perfil</button>    
+          <button @click="$router.push(user.tenantLink)" type="button" class="btn btn-info" title="Desativar"><i class="fa fa-building"></i>  Dados da Empresa</button>  
+          <button @click="doLogout" type="button" class="btn btn-danger" title="Desativar"><i class="fa fa-power-off"></i>  Sair</button>                                            
+        </div>        
       </div>
       <!-- search form -->
       <form action="#" method="get" class="sidebar-form">
@@ -66,13 +73,16 @@
     <div class="pull-right hidden-xs">
       <b>Versão</b> 0.0.0
     </div>
-    <strong>Copyright &copy; 2017 <a target="_blank" href="http://ship7.com.br">Ship7 Software LTDA</a>.</strong> Todos os direitos reservados
+    Feito com <i class="fa fa-heart"></i> por <strong><a target="_blank" href="http://ship7.com.br">Ship7 Software LTDA</a></strong>
   </footer>
 </lte-wrapper>
 </template>
 <script>
 export default {
   name: 'ContentPage',
+  props: {
+    loading: Boolean
+  },
   data: function () {
     return {
       config: this.$siteConfig,
@@ -91,11 +101,89 @@ export default {
     this.user.tenantName = perfil[this.$user.fields.tenant][this.$user.fields.tenantName]
   },
   methods: {
+    doLogout () {
+      this.$user.logout(() => {
+        this.$router.push('/login')
+      })
+    }
   }
 }
 </script>
-<style scoped>
+<style> 
   .user-panel .info p {
     margin-top: 10px
+  }
+
+  .navbar-nav > .user-menu .user-image {
+    height: 40px !important;
+    width: 40px !important;
+  }
+  .navbar-nav > .user-menu a {
+    padding: 12px 5px 5px 5px !important
+  }  
+
+  @media (max-width: 767px) {
+    .logo-main {
+      display: none !important
+    }    
+
+    .fixed .content-wrapper, .fixed .right-side, .main-sidebar, .left-side {
+        padding-top: 50px;
+    }
+
+    section.content {
+      padding: 0
+    }
+
+    section.content .box {
+      box-shadow: none
+    }
+
+    .content-wrapper, .right-side {
+      background-color: white !important
+    }
+
+    .sidebar {
+      border-top: 3px solid #d2d6de;
+    }
+  }
+  @media (min-width: 768px) {
+    .logo-nav {
+      display: none !important
+    }
+    .navbar-nav > .user-menu .user-image {
+      margin-top: -7px
+    }
+  }
+
+  .logo-nav {
+    width: auto !important;
+    float: left !important
+  }
+
+
+
+  @media(min-width: 331px) {
+    .sidebar .user-panel {
+      height: auto
+    }
+
+    .sidebar .user-panel {
+      display: none
+    }
+  }  
+
+  @media(max-width: 330px) {
+    .sidebar .user-panel {
+      height: 100px
+    }
+
+    .sidebar .user-panel  {
+      display: block
+    }
+  }    
+
+  footer i.fa-heart {
+    color: red
   }
 </style>

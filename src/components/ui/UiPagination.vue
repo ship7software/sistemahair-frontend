@@ -25,7 +25,7 @@
 export default {
   name: 'UiPagination',
   props: {
-    defaultSize: { type: Number, default: 5 },
+    defaultSize: { type: Number, default: 10 },
     total: { type: Number, default: 1000 }
   },
   data: function () {

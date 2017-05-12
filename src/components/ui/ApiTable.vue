@@ -2,16 +2,18 @@
   <table class="table table-bordered table-hover dataTable">
     <thead>
       <tr>
-        <th v-if="config.canEdit || config.canDelete || config.hasActivation">Ações</th>            
+        <th v-if="config.canEdit || config.canDelete || config.hasActivation" style="width:1%;
+    white-space:nowrap;">Ações</th>            
         <th v-for="field in config.fields">{{ field.header }}</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="item in items">
         <td v-if="config.canEdit || config.canDelete || config.hasActivate">
-          <div :class="{ 'btn-group': fullWidth >= 645, 'btn-group-vertical': fullWidth < 645 }">
-            <button @click="changeActivation(item._id, item[config.descriptionField], false)" type="button" v-if="config.hasActivate && item.ativo" class="btn btn-default">Desativar</button>
-            <button @click="changeActivation(item._id, item[config.descriptionField], true)" type="button" v-if="config.hasActivate && !item.ativo" style="width: 81px" class="btn btn-success">Ativar</button>
+          <!--<div :class="{ 'btn-group': fullWidth >= 515, 'btn-group-vertical': fullWidth < 515 }">-->
+          <div class="btn-group">
+            <button @click="changeActivation(item._id, item[config.descriptionField], false)" type="button" v-if="config.hasActivate && item.ativo" class="btn btn-warning" title="Desativar"><i class="fa fa-pause"></i></button>
+            <button @click="changeActivation(item._id, item[config.descriptionField], true)" type="button" v-if="config.hasActivate && !item.ativo" class="btn btn-success" title="Ativar"><i class="fa fa-play"></i></button>
             <button @click="edit(item._id)" type="button" v-if="config.canEdit" class="btn btn-info" title="Editar"><i class="fa fa-edit"></i></button>
             <button @click="remove(item._id, item[config.descriptionField])" type="button" v-if="config.canDelete" class="btn btn-danger" title="Excluir"><i class="fa fa-trash"></i></button>
           </div>                
@@ -101,7 +103,7 @@ export default {
         this.$showMessage({
           title: 'Você tem certeza?',
           text: 'Você está desativando ' + description,
-          type: 'warning',
+          type: 'question',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
@@ -119,11 +121,15 @@ export default {
 </script>
 <style scoped>
 .btn-group {
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;  
+  white-space: nowrap;
 }
 td {
   vertical-align: middle !important
+}
+
+.btn-group .btn {
+  float: none;
+  display: inline-block;
+  margin: -2px
 }
 </style>

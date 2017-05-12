@@ -10,7 +10,7 @@
       </router-link>
       <ul class="treeview-menu" v-if="item.menus">
         <li v-for="sub in item.menus">
-          <router-link :to="sub.to" @click.native="collapseMenu(item.to)">
+          <router-link :to="sub.to" @click.native="collapseMenu(sub.to)">
             <i :class="['fa', 'fa-' + sub.icon ]"></i>{{ sub.title }}
           </router-link>
         </li>

@@ -1,6 +1,6 @@
 <template>
-  <lte-content-page>
-    <section class="content-header">
+  <lte-content-page :loading="loading">
+    <section class="content-header" v-if="false">
       <h1>
         {{ pageTitle }}
       </h1>
@@ -10,28 +10,28 @@
 
       <!-- Default box -->
       <div class="box">
-        <div v-show="loading" class="overlay">
-          <i class="fa fa-refresh fa-spin"></i>
+        <div class="box-header with-border">
+          <h3 class="box-title">{{ pageTitle }}</h3>
+          <div class="box-tools pull-right">
+            <button @click="$router.push(tableConfig.editUrl + 'add')" type="submit" class="btn add-button btn-block btn-success btn-flat">
+              <i class="fa fa-plus"></i>
+                Adicionar novo
+            </button>    
+          </div>      
         </div>
-        <div class="box-header">       
-          <form @submit.prevent.default>       
-            <label>Descrição</label>          
+        <div class="box-body no-padding">
+          <form @submit.prevent.default v-if="configuration.search.filterFieldModel">
+            <label>{{ configuration.search.filterFieldTitle }}</label>          
             <div class="input-group">
-              <input style="text-transform: uppercase" @input="objeto.descricao = $event.target.value.toUpperCase()" v-model="objeto.descricao" type="text" min="3" class="form-control">
+              <input style="text-transform: uppercase" @input="objeto = $event.target.value.toUpperCase()" v-model="objeto" type="text" min="3" class="form-control">
               <span class="input-group-btn">           
                 <button @click="$refs.paginator.changePage(1)" type="submit" class="btn btn-primary btn-flat">
                   <i class="fa fa-search"></i>
                 </button>
               </span>
             </div>
-            <button style="margin-top: 10px" @click="$router.push(tableConfig.editUrl + 'add')" type="submit" class="btn btn-block btn-success btn-flat">
-              <i class="fa fa-plus"></i>
-                Adicionar novo
-            </button> 
-          </form>
-        </div>
-        <div class="box-body no-padding">
-          <api-table :filter="filter" ref="apiTable" url="/produto" @finish="onLoadFinish" :sort="sort" :config="tableConfig" @reload="onPaginate(limit, skip)"></api-table>
+          </form>      
+          <api-table :filter="filter" ref="apiTable" :url="apiUrl" @finish="onLoadFinish" :sort="sort" :config="tableConfig" @reload="onPaginate(limit, skip)"></api-table>
         </div>
         <div class="box-footer">
           <lte-ui-pagination ref="paginator" @paginate="onPaginate" :total="total"></lte-ui-pagination>
@@ -44,30 +44,26 @@
   </lte-content-page>
 </template>
 <script>
+import _ from 'lodash'
+
 export default {
   name: 'Search',
+  props: {
+    configuration: Object
+  },
   data () {
     return {
-      pageTitle: 'Produtos',
-      breadcrumbs: [{text: 'Início', icon: 'home'}, 'Cadastros', 'Produto'],
-      apiUrl: '/produto',
+      pageTitle: this.configuration.search.pageTitle,
+      breadcrumbs: this.configuration.breadcrumbs,
+      apiUrl: this.configuration.apiUrl,
       filter: null,
-      objeto: {},
+      objeto: null,
       limit: null,
       skip: null,
-      loading: false,
+      loading: true,
       total: 1,
-      tableConfig: {
-        fields: [
-          { model: 'descricao', header: 'Descrição' }
-        ],
-        canEdit: true,
-        canDelete: true,
-        hasActivate: true,
-        editUrl: '/produto/',
-        descriptionField: 'descricao'
-      },
-      sort: { descricao: 1 }
+      tableConfig: this.configuration.search.table,
+      sort: this.configuration.search.sort
     }
   },
   mounted () {
@@ -85,8 +81,13 @@ export default {
       this.limit = limit
       this.loading = true
       this.filter = null
-      if (this.objeto.descricao && this.objeto.descricao.trim() !== '') {
-        this.addFilter('descricao', { $regex: this.objeto.descricao })
+      if (this.objeto && this.objeto.trim() !== '') {
+        let filters = [].concat(this.configuration.search.filterFieldModel)
+
+        let $vm = this
+        _.each(filters, (field) => {
+          $vm.addFilter(field, { $regex: this.objeto })
+        })
       }
       this.$forceUpdate()
       this.$nextTick(() => {
@@ -94,8 +95,11 @@ export default {
       })
     },
     addFilter (name, val) {
-      this.filter = this.filter || {}
-      this.filter[name] = val
+      this.filter = this.filter || { $or: [] }
+      var actual = {}
+      actual[name] = val
+
+      this.filter.$or.push(actual)
     },
     onLoadFinish (total) {
       let $vm = this
@@ -109,4 +113,15 @@ export default {
 }
 </script>
 <style scoped>
+  .box-body.no-padding form {
+    padding: 10px
+  }
+  .add-button {
+    border-radius: 3px
+  }
+
+  .box-header > .box-tools {
+    top: 3px;
+    right: 3px
+  }
 </style>

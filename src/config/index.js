@@ -26,7 +26,7 @@ Vue.prototype.$siteConfig = {
       icon: 'edit',
       menus: [
         { title: 'Clientes', icon: 'users', to: '/cliente' },
-        { title: 'Formas de Pagamento', icon: 'money', to: '/formapagamento' },
+        { title: 'Formas de Pagamento', icon: 'money', to: '/formaPagamento' },
         { title: 'Fornecedores', icon: 'users', to: '/fornecedor' },
         { title: 'Produtos', icon: 'cube', to: '/produto' },
         { title: 'Serviços', icon: 'tag', to: '/servico' },

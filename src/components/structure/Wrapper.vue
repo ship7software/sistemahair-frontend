@@ -1,5 +1,5 @@
 <template>
-  <div :class="['wrapper', 'skin-' + color]">
+  <div :class="['wrapper', 'overlay-wrapper', 'skin-' + color]">
     <slot></slot>
   </div>
 </template>

@@ -1,22 +1,24 @@
 <template>
-  <router-view></router-view>
+  <router-view :key="$route.path"></router-view>
 </template>
 
 <script>
+/* global $ */
 export default {
-  name: 'app'
+  name: 'app',
+  mounted () {
+    $('.navbar .menu').slimscroll({
+      height: '3px',
+      alwaysVisible: false,
+      size: '200px'
+    }).css('width', '100%')
+  }
 }
 </script>
 
 <style>
 .login-page {
   background-color: #ecf0f5 !important;
-}
-
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
 }
 
 @media (max-width: 767px) {

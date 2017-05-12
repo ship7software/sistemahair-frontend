@@ -1,5 +1,7 @@
 <template>
-  <search-form></search-form>
+  <lte-content-page>
+    <h1>Hello</h1>
+  </lte-content-page>
 </template>
 <script>
 export default {
