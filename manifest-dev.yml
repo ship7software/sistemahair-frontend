@@ -1,0 +1,6 @@
+inherit: base-manifest.yml
+applications:
+- name: sistemahair-frontend-dev
+  host: sistemahair-frontend-dev
+  env:
+    BACKEND_URL: sistemahair-api-dev.mybluemix.net
