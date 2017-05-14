@@ -4,3 +4,4 @@ applications:
   host: sistemahair-frontend-dev
   env:
     BACKEND_URL: sistemahair-api-dev.mybluemix.net
+    BRAND: localhost
