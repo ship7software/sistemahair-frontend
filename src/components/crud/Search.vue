@@ -31,9 +31,14 @@
               </span>
             </div>
           </form>      
-          <api-table :filter="filter" ref="apiTable" :url="apiUrl" @finish="onLoadFinish" :sort="sort" :config="tableConfig" @reload="onPaginate(limit, skip)"></api-table>
+          <api-table v-show="total > 0" :filter="filter" ref="apiTable" :url="apiUrl" @finish="onLoadFinish" :sort="sort" :config="tableConfig" @reload="onPaginate(limit, skip)"></api-table>
+          <div class="row" style="padding: 10px" v-show="total < 1">
+            <div class="col-md-12">
+              <lte-ui-alert title="Ops!" type="info" message="Nenhum registro encontrado."></lte-ui-alert>
+            </div>
+          </div>
         </div>
-        <div class="box-footer">
+        <div class="box-footer" v-show="total > 0 && !loading">
           <lte-ui-pagination ref="paginator" @paginate="onPaginate" :total="total"></lte-ui-pagination>
         </div>
         <!-- /.box-footer-->
