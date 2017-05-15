@@ -32,7 +32,7 @@ export default {
   form: {
     title: 'Cadastro de Forma de Pagamento',
     fields: [
-      { title: 'Nome', model: 'nome', required: true },
+      { title: 'Nome', model: 'nome', validation: 'required' },
       { title: 'Taxa (%)', model: 'taxa', type: 'money', min: 0 },
       { title: 'Prazo Recebimento (dias)', model: 'prazoRecebimento', type: 'integer', min: 0 },
       {

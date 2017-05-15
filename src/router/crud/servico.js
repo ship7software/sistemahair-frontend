@@ -57,7 +57,7 @@ export default {
           { value: 450, text: '7h 30m' },
           { value: 480, text: '8h' }
         ],
-        required: true
+        validation: 'required'
       }
     ]
   },

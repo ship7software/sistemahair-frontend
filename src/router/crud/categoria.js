@@ -32,12 +32,12 @@ export default {
   form: {
     title: 'Cadastro de Categoria',
     fields: [
-      { title: 'Descrição', model: 'descricao', required: true },
+      { title: 'Descrição', model: 'descricao', validation: 'required' },
       {
         title: 'Tipo',
         model: 'tipo',
         type: 'select',
-        required: true,
+        validation: 'required',
         options: [
           { value: '', text: 'Selecionar' },
           { value: 'C', text: 'Crédito' },

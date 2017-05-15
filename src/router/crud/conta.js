@@ -32,7 +32,7 @@ export default {
   form: {
     title: 'Cadastro de Conta',
     fields: [
-      { title: 'Nome', model: 'nome', required: true }
+      {title: 'Nome', model: 'nome', validation: 'required'}
     ]
   },
   route: '/conta',

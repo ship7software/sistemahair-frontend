@@ -32,7 +32,7 @@ export default {
   form: {
     title: 'Cadastro de Produto',
     fields: [
-      { title: 'Descrição', model: 'descricao', required: true },
+      { title: 'Descrição', model: 'descricao', validation: 'required' },
       { title: 'Preço', model: 'preco', type: 'money', min: 0 },
       { title: 'Custo', model: 'custo', type: 'money', min: 0 },
       { title: 'Estoque', model: 'estoque', type: 'integer', min: 0 },

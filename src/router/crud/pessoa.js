@@ -33,9 +33,9 @@ const get = (url, title, specificFields) => {
     form: {
       title: 'Cadastro de ' + title,
       fields: [
-        { title: 'Nome', model: 'nome', required: true },
-        { title: 'Telefone', model: 'telefone', required: true, type: 'telefone' },
-        { title: 'E-mail', model: 'email', type: 'email' }
+        { title: 'Nome', model: 'nome', validation: 'required' },
+        { title: 'Telefone', model: 'telefone', validation: 'required', type: 'telefone' },
+        { title: 'E-mail', model: 'email', type: 'email', validation: 'email' }
       ]
     },
     route: url,

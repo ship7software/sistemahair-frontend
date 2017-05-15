@@ -7,7 +7,9 @@ import { default as swal } from 'sweetalert2'
 import Axios from 'axios'
 import userService from './services/user'
 import promiseFinally from 'promise.prototype.finally'
+import VeeValidate from 'vee-validate'
 
+Vue.use(VeeValidate)
 /* Promise */
 promiseFinally.shim()
 

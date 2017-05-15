@@ -23,6 +23,7 @@
     "querystring": "^0.2.0",
     "sweetalert2": "^6.6.2",
     "text-mask-addons": "^3.5.1",
+    "vee-validate": "^2.0.0-rc.3",
     "vue": "^2.2.6",
     "vue-numeric": "^1.5.1",
     "vue-router": "^2.3.1",
