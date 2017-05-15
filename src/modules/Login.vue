@@ -130,7 +130,7 @@ export default {
       $vm.loading = true
       $vm.sucessoConfirmacao = false
       $vm.erroConfirmacao = false
-      this.$api.getAll('/publico/empresa/confirmar/reenviar?email' + this.usuario.email).then((result) => {
+      this.$api.getAll('/publico/empresa/confirmar/reenviar?email=' + $vm.usuario.login).then((result) => {
         $vm.loading = false
         $vm.sucessoConfirmacao = true
       })
