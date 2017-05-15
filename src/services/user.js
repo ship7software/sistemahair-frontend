@@ -23,6 +23,17 @@ const user = new Vue({
         cb(err.response)
       })
     },
+    autoLogin (data, cb) {
+      const $vm = this
+      const encodedCookie = btoa(data.token)
+      const encodedUserData = btoa(JSON.stringify(data.user))
+
+      cookies({sistemaHairUserToken: encodedCookie, sistemaHairUserData: encodedUserData})
+      $vm.token = data.token
+      $vm.data = data.user
+
+      cb()
+    },
     getDecodedCookie () {
       const cookie = cookies('sistemaHairUserToken')
       const decodedCookie = cookie && atob(cookie)

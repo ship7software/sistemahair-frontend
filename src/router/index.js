@@ -13,6 +13,16 @@ let defaultRoutes = [
     component: Login
   },
   {
+    path: '/confirmacao',
+    name: 'Confirmacao',
+    component: Login
+  },
+  {
+    path: '/redefinicao',
+    name: 'Redefinicao',
+    component: Login
+  },
+  {
     path: '/',
     name: 'Inicio',
     component: Inicio
@@ -29,8 +39,8 @@ let router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path !== '/login' && !userService.isAuthenticated()) {
-    next('/login?to=' + to.path)
+  if (to.path !== '/login' && to.path !== '/confirmacao' && !userService.isAuthenticated()) {
+    next('/login?to=' + to.fullPath)
   } else {
     next()
   }
