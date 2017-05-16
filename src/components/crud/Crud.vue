@@ -25,7 +25,7 @@
                   <select :ref="field.model + 'Field'" v-validate="field.validation || {}" class="form-control" v-model="model[field.model]" v-else-if="field.type == 'select' && field.options" :name="field.model" :data-vv-name="field.model">
                     <option v-for="opt in field.options" :value="opt.value">{{ opt.text }}</option>
                   </select>
-                  <ui-select-api :ref="field.model + 'Field'" v-validate="field.validation || {}" class="form-control" v-model="model[field.model]" v-else-if="field.type == 'select' && field.api" :name="field.model" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText"></ui-select-api>                
+                  <ui-select-api :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'select' && field.api" :name="field.model" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText"></ui-select-api>                
                   <the-mask class="form-control" v-else-if="field.type === 'telefone'" :mask="['(##) ####-####', '(##) #####-####']" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
                   </the-mask>             
                   <the-mask class="form-control" v-else-if="field.type === 'cpfCnpj'" :mask="['###.###.###-##', '##.###.###/####-##']" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
@@ -97,6 +97,9 @@ export default {
         cidade: this.model.cidade,
         estado: this.model.estado
       }
+    },
+    savedItem (item) {
+      console.log(item)
     },
     onSave () {
       let $vm = this

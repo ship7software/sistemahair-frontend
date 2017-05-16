@@ -1,8 +1,9 @@
 <template>
-  <select class="form-control" v-model="model">
+  <!--<select class="form-control" v-model="model">
     <option value="">Selecionar</option>
     <option v-for="opt in options" :value="opt[optionValue]">{{ opt[optionText] }}</option>
-  </select>   
+  </select>   -->
+  <multiselect v-model="model" :showLabels="false" :track-by="optionText" :label="optionText"  :options="options" :searchable="false" :allow-empty="false" :internalSearch="false" placeholder="Selecionar"></multiselect>
 </template>
 <script>
 export default {

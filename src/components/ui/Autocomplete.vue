@@ -1,23 +1,24 @@
 <template>
-  <input type="text" class="form-control" v-model="text">
+  <multiselect v-model="model" :showLabels="false" :track-by="optionValue" :label="optionText" :options="options" :searchable="true" :allow-empty="true" :internalSearch="false" @search-change="load" :loading="loading" :block-keys="['Tab', 'Enter']" placeholder="Digite para buscar">
+    <span slot="noResult">{{ message }}.</span>
+  </multiselect>
 </template>
 <script>
-import ItemTemplate from './AutoCompleteItem'
 export default {
   name: 'Autocomplete',
   props: {
     value: [String, Object],
     api: String,
     payload: Object,
-    labelField: String,
-    filterField: String
+    optionValue: { type: String, default: '_id' },
+    optionText: { type: String }
   },
   data: () => {
     return {
-      items: [],
-      text: '',
-      model: this.value,
-      template: ItemTemplate
+      options: [],
+      model: [],
+      loading: false,
+      message: 'Nenhum registro encontrado'
     }
   },
   watch: {
@@ -27,15 +28,22 @@ export default {
     }
   },
   methods: {
-    getLabel (item) {
-      return item[this.labelField]
-    },
-    updateItems (text) {
-      this.payload[this.filterField] = { $regex: text.toUpperCase() }
+    load (text) {
       let $vm = this
-      this.$api.getWithPage(this.api, this.payload).then((ret) => {
-        $vm.items = ret.data
-      })
+      if (text && text.length > 2) {
+        $vm.message = 'Nenhum registro encontrado'
+        $vm.loading = true
+        $vm.payload[$vm.optionText] = { $regex: text, $options: 'i' }
+        this.$api.getWithPage($vm.api, $vm.payload).then((result) => {
+          $vm.options = result.data
+          $vm.$nextTick(() => {
+            $vm.loading = false
+            $vm.model = $vm.value
+          })
+        })
+      } else {
+        $vm.message = 'Digite no mínimo 3 caracteres para buscar'
+      }
     }
   }
 }

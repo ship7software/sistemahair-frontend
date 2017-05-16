@@ -27,6 +27,7 @@
     "vee-validate": "^2.0.0-rc.3",
     "vue": "^2.2.6",
     "vue-datetime-picker": "^0.2.1",
+    "vue-multiselect": "^2.0.0-beta.15",
     "vue-numeric": "^1.5.1",
     "vue-router": "^2.3.1",
     "vue-text-mask": "^5.1.1",

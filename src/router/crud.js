@@ -7,6 +7,7 @@ import formaPagamento from './crud/formaPagamento'
 import pessoa from './crud/pessoa'
 import conta from './crud/conta'
 import categoria from './crud/categoria'
+import Vue from 'vue'
 
 let configs = [
   produto,
@@ -19,6 +20,7 @@ let configs = [
   pessoa('/profissional', 'Profissionais', { title: 'Comissão', model: 'comissao', type: 'money', min: 0 })
 ]
 
+let cruds = {}
 let crudRoutes = []
 
 _.each(configs, (item) => {
@@ -32,6 +34,7 @@ _.each(configs, (item) => {
     })
   }
   if (item.form) {
+    cruds[item.route.replace('/', '')] = item
     crudRoutes.push({
       path: item.route + '/add',
       component: Crud,
@@ -49,4 +52,5 @@ _.each(configs, (item) => {
   }
 })
 
+Vue.prototype.$cruds = cruds
 export default crudRoutes

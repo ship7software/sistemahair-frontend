@@ -49,20 +49,18 @@ Vue.prototype.$user.fields = {
   tenantLink: '/usuario/empresa'
 }
 
-import MaskedInput from 'vue-text-mask'
 import VueNumeric from 'vue-numeric'
-import Autocomplete from 'v-autocomplete'
+import Multiselect from 'vue-multiselect'
 
-import 'v-autocomplete/dist/v-autocomplete.css'
-
-Vue.use(Autocomplete)
-Vue.component('input-mask', MaskedInput)
+  // register globally
+Vue.component('multiselect', Multiselect)
 Vue.component('vue-numeric', VueNumeric)
 
 import './components'
 import './config'
 import router from './router'
 import './../node_modules/sweetalert2/dist/sweetalert2.min.css'
+import './../node_modules/vue-multiselect/dist/vue-multiselect.min.css'
 
 /* eslint-disable no-new */
 new Vue({
