@@ -7,6 +7,7 @@ import formaPagamento from './crud/formaPagamento'
 import pessoa from './crud/pessoa'
 import conta from './crud/conta'
 import categoria from './crud/categoria'
+import pacote from './crud/pacote'
 import Vue from 'vue'
 
 let configs = [
@@ -15,6 +16,7 @@ let configs = [
   formaPagamento,
   conta,
   categoria,
+  pacote,
   pessoa('/cliente', 'Clientes'),
   pessoa('/fornecedor', 'Fornecedores'),
   pessoa('/profissional', 'Profissionais', { title: 'Comissão', model: 'comissao', type: 'money', min: 0 })

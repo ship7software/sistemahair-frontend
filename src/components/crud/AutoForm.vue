@@ -44,12 +44,26 @@ export default {
       loading: false
     }
   },
+  watch: {
+    model (newValue) {
+      this.$emit('input', newValue)
+      this.$emit('change', newValue)
+    },
+    value (newValue) {
+      this.model = newValue
+    }
+  },
   created () {
     for (var i = 0; i < this.configuration.form.fields.length; i++) {
       if (this.configuration.form.fields[i].type === 'money' && !this.model[this.configuration.form.fields[i].model]) {
         this.model[this.configuration.form.fields[i].model] = ''
       }
     }
+  },
+  mounted () {
+    this.$nextTick(($vm) => {
+      this.model = this.value || {}
+    })
   },
   methods: {
     obterEndereco () {

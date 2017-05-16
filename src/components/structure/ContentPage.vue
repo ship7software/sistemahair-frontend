@@ -78,6 +78,7 @@
 </lte-wrapper>
 </template>
 <script>
+/* global $ */
 export default {
   name: 'ContentPage',
   props: {
@@ -99,6 +100,9 @@ export default {
     let perfil = this.$user.perfil()
     this.user.name = perfil[this.$user.fields.name]
     this.user.tenantName = perfil[this.$user.fields.tenant][this.$user.fields.tenantName]
+  },
+  mounted () {
+    $(window, '.wrapper').resize()
   },
   methods: {
     doLogout () {

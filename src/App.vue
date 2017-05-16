@@ -7,7 +7,7 @@
 export default {
   name: 'app',
   mounted () {
-    $('.navbar .menu').slimscroll({
+    $('.sidebar').slimscroll({
       height: '3px',
       alwaysVisible: false,
       size: '200px'
