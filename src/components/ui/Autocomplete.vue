@@ -34,6 +34,9 @@ export default {
     model (newValue) {
       this.$emit('input', newValue)
       this.$emit('change', newValue)
+    },
+    value (newValue) {
+      this.model = newValue
     }
   },
   methods: {
@@ -53,6 +56,9 @@ export default {
       } else {
         $vm.message = 'Digite no mínimo 3 caracteres para buscar'
       }
+    },
+    forceClear () {
+      this.model = null
     }
   }
 }

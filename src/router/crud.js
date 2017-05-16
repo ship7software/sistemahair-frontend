@@ -36,21 +36,32 @@ _.each(configs, (item) => {
     })
   }
   if (item.form) {
-    cruds[item.route.replace('/', '')] = item
-    crudRoutes.push({
-      path: item.route + '/add',
-      component: Crud,
-      props: {
-        configuration: item
-      }
-    })
-    crudRoutes.push({
-      path: item.route + '/:id',
-      component: Crud,
-      props: {
-        configuration: item
-      }
-    })
+    if (item.form.component) {
+      crudRoutes.push({
+        path: item.route + '/add',
+        component: item.form.component
+      })
+      crudRoutes.push({
+        path: item.route + '/:id',
+        component: item.form.component
+      })
+    } else {
+      cruds[item.route.replace('/', '')] = item
+      crudRoutes.push({
+        path: item.route + '/add',
+        component: Crud,
+        props: {
+          configuration: item
+        }
+      })
+      crudRoutes.push({
+        path: item.route + '/:id',
+        component: Crud,
+        props: {
+          configuration: item
+        }
+      })
+    }
   }
 })
 

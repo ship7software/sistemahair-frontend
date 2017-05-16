@@ -1,3 +1,5 @@
+import PacoteForm from './../../modules/Cadastros/PacoteForm.vue'
+
 export default {
   apiUrl: '/pacote',
   breadcrumbs: [
@@ -30,5 +32,8 @@ export default {
     filterFieldModel: 'descricao'
   },
   route: '/pacote',
-  descriptionField: 'descricao'
+  descriptionField: 'descricao',
+  form: {
+    component: PacoteForm
+  }
 }

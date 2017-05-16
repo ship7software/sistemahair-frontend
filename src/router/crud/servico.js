@@ -29,7 +29,7 @@ export default {
   form: {
     title: 'Cadastro de Serviços',
     fields: [
-      { title: 'Descrição', model: 'descricao', required: true },
+      { title: 'Descrição', model: 'descricao', validation: 'required' },
       { title: 'Preço', model: 'preco', type: 'money', min: 0 },
       { title: 'Comissão', model: 'comissao', type: 'money', min: 0 },
       {

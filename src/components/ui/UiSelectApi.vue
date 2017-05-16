@@ -1,6 +1,6 @@
 <template>
   <div class="input-group">
-    <multiselect v-model="model" :showLabels="false" :track-by="optionText" :label="optionText"  :options="options" :searchable="false" :allow-empty="false" :internalSearch="false" placeholder="Selecionar"></multiselect>
+    <multiselect v-model="model" :showLabels="false" :track-by="optionText" :label="optionText"  :options="options" :searchable="false" :clearOnSelect="false" :allow-empty="false" :internalSearch="false" placeholder="Selecionar"></multiselect>
     <span class="input-group-btn" v-if="$cruds[api.replace('/', '')]">           
       <button @click="$refs.shortCrud.open()" title="Cadastro novo" type="submit" class="btn btn-add-multiselect btn-primary btn-flat">
         <i class="fa fa-plus"></i>
@@ -46,6 +46,9 @@ export default {
           $vm.$forceUpdate()
         })
       })
+    },
+    forceClear () {
+      this.model = null
     },
     loadWithId () {
       let $vm = this
