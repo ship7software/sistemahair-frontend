@@ -1,7 +1,15 @@
 <template>
-  <multiselect v-model="model" :showLabels="false" :track-by="optionValue" :label="optionText" :options="options" :searchable="true" :allow-empty="true" :internalSearch="false" @search-change="load" :loading="loading" :block-keys="['Tab', 'Enter']" placeholder="Digite para buscar">
-    <span slot="noResult">{{ message }}.</span>
-  </multiselect>
+  <div class="input-group">
+    <multiselect v-model="model" :showLabels="false" :track-by="optionValue" :label="optionText" :options="options" :searchable="true" :allow-empty="true" :internalSearch="false" @search-change="load" :loading="loading" :block-keys="['Tab', 'Enter']" placeholder="Digite para buscar">
+      <span slot="noResult">{{ message }}.</span>
+    </multiselect>
+      <span class="input-group-btn" v-if="$cruds[api.replace('/', '')]">           
+        <button @click="$refs.shortCrud.open()" title="Cadastro novo" type="submit" class="btn btn-add-multiselect btn-primary btn-flat">
+          <i class="fa fa-plus"></i>
+        </button>
+      </span>
+      <short-crud ref="shortCrud" v-if="!short && $cruds[api.replace('/', '')]" :configuration="$cruds[api.replace('/', '')]" v-model="model"></short-crud>
+    </div>
 </template>
 <script>
 export default {
@@ -11,12 +19,13 @@ export default {
     api: String,
     payload: Object,
     optionValue: { type: String, default: '_id' },
-    optionText: { type: String }
+    optionText: { type: String },
+    short: { type: Boolean, default: false }
   },
   data: () => {
     return {
       options: [],
-      model: [],
+      model: {},
       loading: false,
       message: 'Nenhum registro encontrado'
     }

@@ -119,12 +119,16 @@ export default {
     width: 40px !important;
   }
   .navbar-nav > .user-menu a {
-    padding: 12px 5px 5px 5px !important
+    padding: 15px 15px 15px 5px !important
   }  
 
   @media (max-width: 767px) {
     .logo-main {
       display: none !important
+    }    
+
+    .navbar-nav > .user-menu a {
+      padding: 12px 5px 5px 5px !important
     }    
 
     .fixed .content-wrapper, .fixed .right-side, .main-sidebar, .left-side {
@@ -152,7 +156,7 @@ export default {
       display: none !important
     }
     .navbar-nav > .user-menu .user-image {
-      margin-top: -7px
+      margin-top: -10px
     }
   }
 
@@ -185,5 +189,9 @@ export default {
 
   footer i.fa-heart {
     color: red
+  }
+
+  .content-wrapper {
+    border-left: 0 !important
   }
 </style>
