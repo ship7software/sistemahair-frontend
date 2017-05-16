@@ -91,7 +91,7 @@ export default {
 
         let $vm = this
         _.each(filters, (field) => {
-          $vm.addFilter(field, { $regex: this.objeto })
+          $vm.addFilter(field, { $regex: this.objeto, $options: 'i' })
         })
       }
       this.$forceUpdate()

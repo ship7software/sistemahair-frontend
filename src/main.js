@@ -8,7 +8,9 @@ import Axios from 'axios'
 import userService from './services/user'
 import promiseFinally from 'promise.prototype.finally'
 import VeeValidate from 'vee-validate'
+import VueTheMask from 'vue-the-mask'
 
+Vue.use(VueTheMask)
 Vue.use(VeeValidate)
 /* Promise */
 promiseFinally.shim()
@@ -49,7 +51,11 @@ Vue.prototype.$user.fields = {
 
 import MaskedInput from 'vue-text-mask'
 import VueNumeric from 'vue-numeric'
+import Autocomplete from 'v-autocomplete'
 
+import 'v-autocomplete/dist/v-autocomplete.css'
+
+Vue.use(Autocomplete)
 Vue.component('input-mask', MaskedInput)
 Vue.component('vue-numeric', VueNumeric)
 

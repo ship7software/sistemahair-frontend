@@ -33,7 +33,7 @@ export default {
     title: 'Cadastro de Forma de Pagamento',
     fields: [
       { title: 'Nome', model: 'nome', validation: 'required' },
-      { title: 'Taxa (%)', model: 'taxa', type: 'money', min: 0 },
+      { title: 'Taxa (%)', model: 'taxa', type: 'integer', min: 0 },
       { title: 'Prazo Recebimento (dias)', model: 'prazoRecebimento', type: 'integer', min: 0 },
       {
         title: 'Tipo de Baixa',
@@ -49,12 +49,15 @@ export default {
         model: 'contaId',
         type: 'select',
         api: '/conta',
+        optionValue: '_id',
+        optionText: 'nome',
         payload: {
           sort: {
             nome: 1
           },
           ativo: true
-        }
+        },
+        validation: 'required'
       }
     ]
   },

@@ -20,12 +20,20 @@
               <div v-else class="form-group" :class="{ 'has-error': errors.has(field.model) }">
                 <label class="col-sm-3 control-label">{{ field.title }}</label>
                 <div class="col-sm-9">
-                  <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model.number="model[field.model]" class="form-control" v-if="field.type == 'money'" type="number" :min="field.min || 0" step="any" :name="field.model" />
-                  <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else-if="field.type == 'integer'" type="number" :min="field.min || 0" step="1" :name="field.model" />
-                  <select :ref="field.model + 'Field'" v-validate="field.validation || {}" class="form-control" v-model="model[field.model]" v-else-if="field.type == 'select' && field.options" :name="field.model">
+                  <vue-numeric currency="R$" :precision="2" separator="." v-if="field.type == 'money'" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" :min="field.min || 0" :name="field.model" :data-vv-name="field.model"></vue-numeric>
+                  <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else-if="field.type == 'integer'" type="number" :min="field.min || 0" step="1" :name="field.model" :data-vv-name="field.model" />
+                  <select :ref="field.model + 'Field'" v-validate="field.validation || {}" class="form-control" v-model="model[field.model]" v-else-if="field.type == 'select' && field.options" :name="field.model" :data-vv-name="field.model">
                     <option v-for="opt in field.options" :value="opt.value">{{ opt.text }}</option>
-                  </select>               
-                  <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else type="text" :placeholder="field.title" :name="field.model">            
+                  </select>
+                  <ui-select-api :ref="field.model + 'Field'" v-validate="field.validation || {}" class="form-control" v-model="model[field.model]" v-else-if="field.type == 'select' && field.api" :name="field.model" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText"></ui-select-api>                
+                  <the-mask class="form-control" v-else-if="field.type === 'telefone'" :mask="['(##) ####-####', '(##) #####-####']" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
+                  </the-mask>             
+                  <the-mask class="form-control" v-else-if="field.type === 'cpfCnpj'" :mask="['###.###.###-##', '##.###.###/####-##']" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
+                  </the-mask>
+                  <the-mask class="form-control" v-else-if="field.mask" :mask="field.mask" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" :type="field.inputType || 'text'">
+                  </the-mask>                       
+                  <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else-if="field.type === 'date'" type="date" :placeholder="field.title" :name="field.model" :data-vv-name="field.model">                          
+                  <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else type="text" :placeholder="field.title" :name="field.model" :data-vv-name="field.model">            
                 </div>
               </div>
             </template>
@@ -66,6 +74,13 @@ export default {
         decimalSymbol: ',',
         allowDecimal: true
       })
+    }
+  },
+  created () {
+    for (var i = 0; i < this.configuration.form.fields.length; i++) {
+      if (this.configuration.form.fields[i].type === 'money' && !this.model[this.configuration.form.fields[i].model]) {
+        this.model[this.configuration.form.fields[i].model] = ''
+      }
     }
   },
   methods: {
@@ -137,4 +152,9 @@ export default {
 }
 </script>
 <style>
+.numeric-right {
+  direction: rtl;
+  unicode-bidi: bidi-override;
+  text-align: left;  
+}
 </style>
