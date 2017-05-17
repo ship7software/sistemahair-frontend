@@ -18,6 +18,7 @@
     "awesome-mask": "^0.5.2",
     "axios": "^0.16.1",
     "cookiesjs": "^1.4.2",
+    "mongoose-autopopulate": "^0.5.0",
     "promise.prototype.finally": "^2.0.1",
     "qs": "^6.4.0",
     "querystring": "^0.2.0",

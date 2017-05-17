@@ -1,0 +1,25 @@
+.multiselect__tags {
+  border-color: #d2d6de;
+  padding-top: 0px;
+  min-height: 34px;
+  max-height: 34px;
+  border-radius: 0 !important
+}
+
+.multiselect__select {
+  height: 32px;  
+  padding: 11px 6px;
+}
+
+.btn-add-multiselect {
+  margin-top: -5px;
+}
+
+.multiselect__single:not(:empty), .multiselect__input {
+  margin-bottom: 6px;
+  margin-top: 5px;  
+}
+
+.multiselect__spinner {
+  height: 30px
+}

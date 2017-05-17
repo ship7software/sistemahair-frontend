@@ -73,7 +73,7 @@ export default {
   },
   mounted () {
     let $vm = this
-    this.$api.getWithPage(this.apiUrl, {skip: 0, limit: 1, sort: { _id: 1 }}).then((response) => {
+    this.$api.getWithPage(this.apiUrl, {skip: 0, limit: 1, sort: this.sort}).then((response) => {
       $vm.total = response.data.total
       $vm.$nextTick(() => {
         $vm.$refs.paginator.changePage(1)

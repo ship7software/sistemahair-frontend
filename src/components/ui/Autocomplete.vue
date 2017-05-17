@@ -25,7 +25,7 @@ export default {
   data: () => {
     return {
       options: [],
-      model: {},
+      model: this.value || {},
       loading: false,
       message: 'Nenhum registro encontrado'
     }
@@ -36,8 +36,15 @@ export default {
       this.$emit('change', newValue)
     },
     value (newValue) {
-      this.model = newValue
+      let $vm = this
+      $vm.$nextTick(() => {
+        $vm.model = newValue
+      })
+      $vm.$forceUpdate()
     }
+  },
+  created () {
+    this.model = this.value
   },
   methods: {
     load (text) {

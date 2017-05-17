@@ -61,6 +61,7 @@ import './config'
 import router from './router'
 import './../node_modules/sweetalert2/dist/sweetalert2.min.css'
 import './../node_modules/vue-multiselect/dist/vue-multiselect.min.css'
+import './assets/index.css'
 
 /* eslint-disable no-new */
 new Vue({

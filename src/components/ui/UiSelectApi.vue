@@ -1,6 +1,6 @@
 <template>
   <div class="input-group">
-    <multiselect v-model="model" :showLabels="false" :track-by="optionText" :label="optionText"  :options="options" :searchable="false" :clearOnSelect="false" :allow-empty="false" :internalSearch="false" placeholder="Selecionar"></multiselect>
+    <multiselect v-model="model" :showLabels="false" :track-by="optionText" :label="optionText"  :options="options" :searchable="false" :loading="loading" :clearOnSelect="true" :allow-empty="false" :internalSearch="false" placeholder="Selecionar"></multiselect>
     <span class="input-group-btn" v-if="$cruds[api.replace('/', '')]">           
       <button @click="$refs.shortCrud.open()" title="Cadastro novo" type="submit" class="btn btn-add-multiselect btn-primary btn-flat">
         <i class="fa fa-plus"></i>
@@ -23,7 +23,8 @@ export default {
   data: () => {
     return {
       options: [],
-      model: {}
+      model: {},
+      loading: false
     }
   },
   watch: {
@@ -39,9 +40,11 @@ export default {
     loadOptions (defaultValue) {
       console.log(defaultValue)
       let $vm = this
+      $vm.loading = true
       this.$api.getWithPage($vm.api, $vm.payload).then((result) => {
         $vm.options = result.data
         $vm.$nextTick(() => {
+          $vm.loading = false
           $vm.model = defaultValue
           $vm.$forceUpdate()
         })
@@ -53,6 +56,7 @@ export default {
     loadWithId () {
       let $vm = this
       if ($vm.value && typeof $vm.value === 'string') {
+        $vm.loading = true
         this.$api.getById($vm.api, $vm.value).then((result) => {
           $vm.loadOptions(result.data)
         })
@@ -66,13 +70,3 @@ export default {
   }
 }
 </script>
-<style>
-  .multiselect__tags {
-    border-radius: 0 !important
-  }
-
-  .btn-add-multiselect {
-    padding-top: 9px !important;
-    padding-bottom: 8px !important
-  }
-</style>
