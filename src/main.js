@@ -45,8 +45,8 @@ Vue.prototype.$user.fields = {
   name: 'nome',
   tenant: 'empresaId',
   tenantName: 'nome',
-  perfilLink: '/usuario/perfil',
-  tenantLink: '/usuario/empresa'
+  perfilLink: '/perfil',
+  tenantLink: '/empresa'
 }
 
 import VueNumeric from 'vue-numeric'

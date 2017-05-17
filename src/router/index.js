@@ -23,6 +23,11 @@ let defaultRoutes = [
     component: Login
   },
   {
+    path: '/trocaSenha',
+    name: 'TrocarSenha',
+    component: Login
+  },
+  {
     path: '/',
     name: 'Inicio',
     component: Inicio

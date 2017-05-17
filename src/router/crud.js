@@ -8,6 +8,8 @@ import pessoa from './crud/pessoa'
 import conta from './crud/conta'
 import categoria from './crud/categoria'
 import pacote from './crud/pacote'
+import empresa from './crud/empresa'
+import userService from './../services/user'
 import Vue from 'vue'
 
 let configs = [
@@ -62,6 +64,15 @@ _.each(configs, (item) => {
         }
       })
     }
+  }
+})
+
+crudRoutes.push({
+  path: '/empresa',
+  component: Crud,
+  props: {
+    configuration: empresa,
+    objectId: userService.getPerfil().empresaId._id
   }
 })
 
