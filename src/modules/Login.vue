@@ -44,21 +44,22 @@
       </template>
       <template v-if="eTroca">
         <p class="login-box-msg">Por favor, entre com suas credenciais para efetuar a troca de senha</p>      
-        <form @submit.prevent>
+        <lte-ui-alert title="Ops!" type="danger" icon="ban" message="Favor verificar se os campos foram preenchidos corretamente" v-show="erroTrocaSenha"></lte-ui-alert>
+        <form @submit.prevent.default data-vv-scope="trocaSenha">
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Usuário" v-model="usuario.login" disabled required/>
+            <input type="text" class="form-control" placeholder="Usuário" v-model="usuario.login" disabled/>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
-          <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Senha Atual" v-model="usuario.password" required/>
+          <div class="form-group has-feedback" :class="{ 'has-error': errors.has('trocaSenha.password') }">
+            <input type="password" class="form-control" placeholder="Senha Atual" v-validate="'required'" v-model="usuario.password" name="password" data-vv-scope="trocaSenha"/>
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
-          <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Nova Senha" v-model="usuario.novaSenha" required/>
+          <div class="form-group has-feedback" :class="{ 'has-error': errors.has('trocaSenha.novaSenha') }">
+            <input type="password" class="form-control" placeholder="Nova Senha" v-validate="'required'" v-model="usuario.novaSenha"  data-vv-scope="trocaSenha" name="novaSenha"/>
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
-          <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Confirma Senha" v-model="usuario.confirmacaoSenha" required/>
+          <div class="form-group has-feedback" :class="{ 'has-error': errors.has('trocaSenha.confirmacaoNovaSenha') }">
+            <input type="password" class="form-control" placeholder="Confirma Senha" v-validate="'required|confirmed:novaSenha'" v-model="usuario.confirmacaoSenha" data-vv-scope="trocaSenha" name="confirmacaoNovaSenha"/>
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>                    
           <div class="row">
@@ -66,7 +67,7 @@
               <button type="submit" class="btn btn-primary btn-block btn-flat" @click="trocarSenha">Trocar Senha</button>
             </div>
             <div class="col-xs-6"> 
-              <button type="submit" class="btn btn-default btn-block btn-flat" @click="doCancel">Cancelar</button>
+              <button type="button" class="btn btn-default btn-block btn-flat" @click="doCancel">Cancelar</button>
             </div>            
           </div>
         </form>
@@ -88,6 +89,7 @@ export default {
       eTroca: false,
       eConfirmacao: false,
       erroConfirmacao: false,
+      erroTrocaSenha: false,
       sucessoConfirmacao: false,
       loading: true
     }
@@ -137,18 +139,24 @@ export default {
 
     trocarSenha () {
       let $vm = this
-      $vm.loading = true
-      this.$api.save('/usuario/trocarSenha', this.usuario).then((result) => {
-        $vm.loading = false
-        $vm.sucessoConfirmacao = false
-        $vm.erroConfirmacao = false
-        if (result.data && result.data.token) {
-          userService.autoLogin(result.data, () => {
-            $vm.$router.push('/')
-          })
-        }
+      $vm.erroTrocaSenha = false
+      this.$validator.validateAll('trocaSenha').then((ret) => {
+        $vm.loading = true
+        this.$api.save('/usuario/trocarSenha', this.usuario).then((result) => {
+          $vm.loading = false
+          $vm.sucessoConfirmacao = false
+          $vm.erroConfirmacao = false
+          if (result.data && result.data.token) {
+            userService.autoLogin(result.data, () => {
+              $vm.$router.push('/')
+            })
+          }
+        }).catch(() => {
+          $vm.loading = false
+          $vm.erroTrocaSenha = true
+        })
       }).catch(() => {
-        $vm.loading = false
+        $vm.erroTrocaSenha = true
       })
     },
 

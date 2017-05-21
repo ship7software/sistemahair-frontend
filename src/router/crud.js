@@ -72,7 +72,7 @@ crudRoutes.push({
   component: Crud,
   props: {
     configuration: empresa,
-    objectId: userService.getPerfil().empresaId._id
+    objectId: function () { return userService.getPerfil().empresaId._id }
   }
 })
 

@@ -37,7 +37,7 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     if ((to.params && to.params.id) || (to.matched[0].props.default.objectId)) {
-      api.getById(to.matched[0].props.default.configuration.apiUrl, (to.params.id || to.matched[0].props.default.objectId)).then((result) => {
+      api.getById(to.matched[0].props.default.configuration.apiUrl, (to.params.id || to.matched[0].props.default.objectId())).then((result) => {
         next($vm2 => {
           $vm2.model = result.data
         })
