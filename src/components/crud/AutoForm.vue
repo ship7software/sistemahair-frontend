@@ -13,14 +13,16 @@
             <option v-for="opt in field.options" :value="opt.value">{{ opt.text }}</option>
           </select>
           <ui-select-api :short="short" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'select' && field.api" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText"></ui-select-api>    
-          <autocomplete :short="short" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'autocomplete'" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText"></autocomplete>                        
+          <autocomplete :short="short" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'autocomplete'" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText" :key="field.model"></autocomplete>                        
           <the-mask class="form-control" v-else-if="field.type === 'telefone'" :mask="['(##) ####-####', '(##) #####-####']" :data-vv-scope="scope" :data-vv-name="field.model" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
           </the-mask>             
           <the-mask class="form-control" v-else-if="field.type === 'cpfCnpj'" :mask="['###.###.###-##', '##.###.###/####-##']" :data-vv-scope="scope" :data-vv-name="field.model" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
           </the-mask>
           <the-mask class="form-control" v-else-if="field.mask" :mask="field.mask" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" :type="field.inputType || 'text'">
           </the-mask>                       
-          <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else-if="field.type === 'date'" type="date" :placeholder="field.title" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model">                      
+          <el-date-picker :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" 
+            type="date" v-else-if="field.type === 'date'" :placeholder="field.title" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" format="dd/MM/yyyy">
+          </el-date-picker>                           
           <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else type="text" :placeholder="field.title" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model">            
         </div>
       </div>
@@ -44,8 +46,10 @@
         <the-mask class="form-control" v-else-if="field.type === 'cpfCnpj'" :mask="['###.###.###-##', '##.###.###/####-##']" :data-vv-scope="scope" :data-vv-name="field.model" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
         </the-mask>
         <the-mask class="form-control" v-else-if="field.mask" :mask="field.mask" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" :type="field.inputType || 'text'">
-        </the-mask>                       
-        <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else-if="field.type === 'date'" type="date" :placeholder="field.title" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model">                          
+        </the-mask>                  
+        <el-date-picker :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" 
+          type="date" v-else-if="field.type === 'date'" :placeholder="field.title" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" format="dd/MM/yyyy">
+        </el-date-picker>              
         <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else type="text" :placeholder="field.title" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model">         
       </div>          
     </td>

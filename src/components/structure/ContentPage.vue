@@ -139,9 +139,9 @@ export default {
         padding-top: 50px;
     }
 
-    section.content {
+    /*section.content {
       padding: 0
-    }
+    }*/
 
     section.content .box {
       box-shadow: none

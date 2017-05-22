@@ -23,3 +23,9 @@
 .multiselect__spinner {
   height: 30px
 }
+
+.form-control {
+  border-radius: 4px;
+  box-shadow: none;
+  border-color: #bfcbd9
+}

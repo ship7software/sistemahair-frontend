@@ -51,6 +51,11 @@ Vue.prototype.$user.fields = {
 
 import VueNumeric from 'vue-numeric'
 import Multiselect from 'vue-multiselect'
+import ElementUI from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/pt-br'
+import 'element-ui/lib/theme-default/index.css'
+
+Vue.use(ElementUI, { locale })
 
   // register globally
 Vue.component('multiselect', Multiselect)
