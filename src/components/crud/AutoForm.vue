@@ -9,9 +9,14 @@
         <div class="col-sm-9">
           <vue-numeric currency="R$" :precision="2" separator="." v-if="field.type == 'money'" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" :min="field.min || 0" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model"></vue-numeric>
           <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else-if="field.type == 'integer'" type="number" :min="field.min || 0" step="1" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" />
-          <select :ref="field.model + 'Field'" v-validate="field.validation || {}" class="form-control" v-model="model[field.model]" v-else-if="field.type == 'select' && field.options" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model">
-            <option v-for="opt in field.options" :value="opt.value">{{ opt.text }}</option>
-          </select>
+          <el-select :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'select' && field.options" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model">
+            <el-option
+              v-for="item in field.options"
+              :key="item.value"
+              :label="item.text"
+              :value="item.value">
+            </el-option>
+          </el-select>
           <ui-select-api :short="short" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'select' && field.api" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText"></ui-select-api>    
           <autocomplete :short="short" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'autocomplete'" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText" :key="field.model"></autocomplete>                        
           <the-mask class="form-control" v-else-if="field.type === 'telefone'" :mask="['(##) ####-####', '(##) #####-####']" :data-vv-scope="scope" :data-vv-name="field.model" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
@@ -36,9 +41,14 @@
       <div v-show="model.editing">
         <vue-numeric currency="R$" :precision="2" separator="." v-if="field.type == 'money'" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" :min="field.min || 0" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model"></vue-numeric>
         <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else-if="field.type == 'integer'" type="number" :min="field.min || 0" step="1" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" />
-        <select :ref="field.model + 'Field'" v-validate="field.validation || {}" class="form-control" v-model="model[field.model]" v-else-if="field.type == 'select' && field.options" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model">
-          <option v-for="opt in field.options" :value="opt.value">{{ opt.text }}</option>
-        </select>
+        <el-select :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'select' && field.options" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model">
+          <el-option
+            v-for="item in field.options"
+            :key="item.value"
+            :label="item.text"
+            :value="item.value">
+          </el-option>
+        </el-select>
         <ui-select-api :short="short" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'select' && field.api" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText"></ui-select-api>    
         <autocomplete :short="short" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'autocomplete'" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText"></autocomplete>                        
         <the-mask class="form-control" v-else-if="field.type === 'telefone'" :mask="['(##) ####-####', '(##) #####-####']" :data-vv-scope="scope" :data-vv-name="field.model" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
