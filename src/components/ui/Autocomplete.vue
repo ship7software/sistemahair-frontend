@@ -73,6 +73,6 @@ export default {
 </script>
 <style>
 .multiselect--disabled {
-  background: none
+  background: none !important
 }
 </style>
