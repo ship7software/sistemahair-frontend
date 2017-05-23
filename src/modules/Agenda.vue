@@ -2,7 +2,7 @@
   <lte-content-page :loading="loading">
     <section class="content no-padding-if-mobile">
       <!-- Default box -->
-      <div class="box">
+      <div class="box agenda-box">
         <div class="box-header with-border">
           
           <el-date-picker class="dataAgendaPrincipal"
@@ -21,7 +21,8 @@
           </div>            
         </div>      
         <div class="box-body">
-          <schedule :startTime="startTime" :endTime="endTime" :step="step" :items="agendamentos" @onSelect="edit"></schedule>
+          <schedule class="principalSchedule" :startTime="startTime" :endTime="endTime" :step="step" :items="agendamentos" @onSelect="edit"></schedule>
+          <schedule class="mobileSchedule" :startTime="startTime" :endTime="endTime" :step="step" :items="agendamentos" @onSelect="edit" :short="true"></schedule>
         </div>       
         <!-- /.box-footer-->
       </div>
@@ -127,5 +128,27 @@ export default {
   font-weight: 500;
   height: inherit;
   background: none
+}
+.mobileSchedule {
+  display: none
+}
+@media(max-width: 500px) {
+  .agenda-box .box-header {
+    background-color: white;
+    position: fixed;
+    top: 51px;
+    width: 100%;
+    z-index: 100;
+  }
+
+  .agenda-box .box-body {
+    padding-top: 55px
+  }
+  .mobileSchedule {
+    display: block
+  }
+  .principalSchedule {
+    display: none
+  }
 }
 </style>

@@ -5,11 +5,19 @@
         <li v-for="item in timeList"><span>{{ item }}</span></li>
       </ul>
     </div> <!-- .timeline-schedule -->
-    <div class="events" v-if="items.length > 0" :style="columnStyleWidth">
+    <div class="events" v-if="visibleItems.length > 0" :style="columnStyleWidth">
       <ul>
-        <li class="events-group" v-for="(item, idx) in items" :style="styleWidth">
+        <li :class="{ 'short-top': short }" class="events-group" v-for="(item, idx) in visibleItems" :style="styleWidth">
           <div class="top-info">
-            <span>{{ getShortName(item.profissional.nome) }}</span>
+            <span v-if="!short">{{ getShortName(item.profissional.nome) }}</span>
+            <el-select v-if="short" v-model="selectedIndex" @change="(selected) => { visibleItems = [items[selected]] }" class="profissionalSelect">
+              <el-option
+                v-for="(opt, optIdx) in items"
+                :key="optIdx"
+                :label="opt.nome"
+                :value="optIdx">
+              </el-option>
+            </el-select>
           </div>
 
           <ul :style="columnStyle">
@@ -27,6 +35,7 @@
 <script>
 import './../../assets/schedule.css'
 import time from './../../util/time.js'
+import _ from 'lodash'
 
 export default {
   name: 'Schedule',
@@ -34,7 +43,8 @@ export default {
     startTime: { type: String, default: '09:00' },
     endTime: { type: String, default: '19:00' },
     step: { type: Number, default: 30 },
-    items: Array
+    items: Array,
+    short: { type: Boolean, default: false }
   },
   data: () => {
     return {
@@ -42,14 +52,22 @@ export default {
       columnStyle: '',
       columnStyleWidth: '',
       cdSchedule: {},
-      styleWidth: ''
+      styleWidth: '',
+      visibleItems: [],
+      selectedIndex: 0
     }
   },
   watch: {
     items: function (newValue) {
-      this.columnStyleWidth = 'transform: rotateX(180deg);-ms-transform:rotateX(180deg); /* IE 9 */-webkit-transform:rotateX(180deg);overflow-y: scroll; min-width: ' + ((this.items.length * 109) + 60) + 'px; width: calc(100% - 48px)'
-      if (this.items.length > 0) {
-        this.styleWidth = 'width: ' + (97 / this.items.length) + '%'
+      if (this.short && this.items.length > 0) {
+        this.visibleItems = [_.clone(this.items[0])]
+      } else {
+        this.visibleItems = _.clone(this.items)
+      }
+
+      this.columnStyleWidth = 'transform: rotateX(180deg);-ms-transform:rotateX(180deg); /* IE 9 */-webkit-transform:rotateX(180deg);overflow-y: scroll; min-width: ' + ((this.visibleItems.length * 109) + 60) + 'px; width: calc(100% - 48px)'
+      if (this.visibleItems.length > 0) {
+        this.styleWidth = 'width: ' + (97 / this.visibleItems.length) + '%'
       }
     }
   },
@@ -58,9 +76,15 @@ export default {
     this.columnStyle = 'height: ' + (this.timeList.length * 50) + 'px'
   },
   mounted () {
-    this.columnStyleWidth = 'transform: rotateX(180deg);-ms-transform:rotateX(180deg); /* IE 9 */-webkit-transform:rotateX(180deg);overflow-y: scroll; min-width: ' + ((this.items.length * 109) + 60) + 'px; width: calc(100% - 48px)'
-    if (this.items.length > 0) {
-      this.styleWidth = 'width: ' + (97 / this.items.length) + '%'
+    if (this.short && this.items.length > 0) {
+      this.visibleItems = [_.clone(this.items[0])]
+    } else {
+      this.visibleItems = _.clone(this.items)
+    }
+
+    this.columnStyleWidth = 'transform: rotateX(180deg);-ms-transform:rotateX(180deg); /* IE 9 */-webkit-transform:rotateX(180deg);overflow-y: scroll; min-width: ' + ((this.visibleItems.length * 109) + 60) + 'px; width: calc(100% - 48px)'
+    if (this.visibleItems.length > 0) {
+      this.styleWidth = 'width: ' + (97 / this.visibleItems.length) + '%'
     }
   },
   methods: {
@@ -98,5 +122,19 @@ export default {
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+  .short-top {
+    border: none !important
+  }
+</style>
+<style>
+  .profissionalSelect {
+    width: 100%
+  }
+
+  .profissionalSelect .el-input .el-input__inner {
+    border: 1px dotted #EAEAEA;
+    height: 50px;
+    border-radius: 0
   }
 </style>
