@@ -1,5 +1,7 @@
 <template>
-  <router-view :key="$route.path"></router-view>
+  <transition name="el-fade-in">
+    <router-view :key="$route.path"></router-view>
+  </transition>
 </template>
 
 <script>
@@ -25,6 +27,10 @@ export default {
   .sidebar-open .wrapper .main-sidebar {
     z-index: 830;
     width: 100%
+  }
+
+  .no-padding-if-mobile {
+    padding: 0
   }
 }
 </style>

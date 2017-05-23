@@ -6,7 +6,7 @@
       </h1>
       <lte-breadcrumb :items="breadcrumbs"></lte-breadcrumb>
     </section>
-    <section class="content">
+    <section class="content no-padding-if-mobile">
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">

@@ -9,9 +9,14 @@
     <section class="content">
       <div class="row" style="padding-bottom: 15px">
         <div class="col-sm-6 col-md-4 col-lg-4 col-xs-12">
-          <select class="form-control">
-            <option value="2017-05-21">Hoje: 21/05/2017</option>
-          </select>
+          <el-date-picker class="dataAgendaPrincipal"
+            v-model="dataAgenda"
+            type="date"
+            :picker-options="dataAgendaOptions"
+            :clearable="false"
+            :editable="false"
+            format="'Resumo do dia: 'dd/MM/yyyy">
+          </el-date-picker>
         </div>
       </div>
       <div class="row">
@@ -66,11 +71,49 @@
 </template>
 <script>
 export default {
-  name: 'Inicio'
+  name: 'Inicio',
+  data: () => {
+    return {
+      dataAgenda: new Date(),
+      dataAgendaOptions: {
+        shortcuts: [{
+          text: 'Hoje',
+          onClick (picker) {
+            picker.$emit('pick', new Date())
+          }
+        }, {
+          text: 'Ontem',
+          onClick (picker) {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24)
+            picker.$emit('pick', date)
+          }
+        }, {
+          text: 'Amanhã',
+          onClick (picker) {
+            const date = new Date()
+            date.setTime(date.getTime() + 3600 * 1000 * 24)
+            picker.$emit('pick', date)
+          }
+        }]
+      }
+    }
+  }
 }
 </script>
 <style scoped>
   td {
     vertical-align: middle !important
   }
+.dataAgendaPrincipal.el-input {
+  width: 100%
+}
+.linhaDataAgenda {
+  margin: 15px
+}
+@media (min-width: 768px) {
+  .linhaDataAgenda {
+    margin-bottom: 0px
+  }
+}
 </style>

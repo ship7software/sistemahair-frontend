@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     loadOptions (defaultValue) {
-      console.log(defaultValue)
       let $vm = this
       $vm.loading = true
       this.$api.getWithPage($vm.api, $vm.payload).then((result) => {
