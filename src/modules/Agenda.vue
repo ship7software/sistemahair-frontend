@@ -11,7 +11,7 @@
             :picker-options="dataAgendaOptions"
             :clearable="false"
             :editable="false"
-            format="'Agenda do dia: 'dd/MM/yyyy">
+            format="'Agenda do dia: 'dd/MM/yyyy" @change="load">
           </el-date-picker>
           <div class="box-tools pull-right">
             <button @click="add" type="submit" class="btn add-button btn-block btn-success btn-flat">
@@ -21,23 +21,19 @@
           </div>            
         </div>      
         <div class="box-body">
-          <schedule></schedule>
+          <schedule :startTime="startTime" :endTime="endTime" :step="step" :items="agendamentos"></schedule>
         </div>       
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->
 
     </section>
-    <modal ref="addModal" :title="addTitle">
-      <auto-form ref="autoForm" :configuration="configuration" v-model="novaAgenda" @onSaved="savedItem"  @onLoading="changeLoading"></auto-form>      
-      <template slot="footer">
-        <button type="button" class="btn btn-default pull-left" @click="saveNew">Fechar</button>
-      </template>
-    </modal>
+    <agenda-modal-add :startTime="startTime" :endTime="endTime" :dataAgendamento="dataAgenda" :title="addTitle" ref="addModal" @saved="load"></agenda-modal-add>
   </lte-content-page>
 </template>
 <script>
 import agendaConfig from '../router/crud/agenda.js'
+import moment from 'moment'
 
 export default {
   name: 'Agenda',
@@ -48,6 +44,11 @@ export default {
       loading: false,
       configuration: agendaConfig,
       dataAgenda: new Date(),
+      profissionalSelecionado: null,
+      startTime: '09:00',
+      endTime: '19:00',
+      step: 30,
+      agendamentos: [],
       dataAgendaOptions: {
         shortcuts: [{
           text: 'Hoje',
@@ -73,15 +74,25 @@ export default {
     }
   },
   mounted () {
+    this.load()
   },
   watch: {
-    'novaAgenda.servicoId': function (novoValor) {
+    novaAgenda: function (novoValor) {
       console.log(novoValor)
     }
   },
   methods: {
     add () {
       this.$refs.addModal.show()
+    },
+    load () {
+      let dataFormatada = moment(this.dataAgenda).format('YYYY-MM-DD')
+      let $vm = this
+      $vm.loading = true
+      this.$api.getById('/agendamento/montar', dataFormatada).then((ret) => {
+        $vm.agendamentos = ret.data
+        $vm.loading = false
+      }).catch((err) => { console.log(err); $vm.loading = false })
     },
     saveNew () {
 

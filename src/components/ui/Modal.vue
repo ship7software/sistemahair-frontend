@@ -1,6 +1,7 @@
 <template>
 <div class="modal" :class="{ 'modal-show': visible }">
   <div class="modal-dialog">
+    <form class="form-horizontal" @submit.prevent.default>
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" @click="hide">
@@ -11,10 +12,11 @@
         <slot></slot>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" @click="hide">Fechar</button>
+        <button v-if="showCloseFooter" type="button" class="btn btn-default pull-left" @click="hide">Fechar</button>
         <slot name="footer"></slot>
       </div>
     </div>
+    </form>
     <!-- /.modal-content -->
   </div>
   <!-- /.modal-dialog -->
@@ -25,7 +27,8 @@ export default {
   name: 'Modal',
   props: {
     dismissable: Boolean,
-    title: String
+    title: String,
+    showCloseFooter: Boolean
   },
   data: () => {
     return {
@@ -45,11 +48,5 @@ export default {
 <style>
 .modal-show {
   display: block
-}
-.modal-footer {
-  border: 0
-}
-.modal-body {
-  
 }
 </style>
