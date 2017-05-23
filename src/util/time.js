@@ -22,6 +22,13 @@ let timeUtil = new Vue({
       let endTime = moment('20000101 ' + end, 'YYYYMMDD HH:mm')
 
       return (endTime - startTime) / 60000
+    },
+
+    addMinutes (start, minutes) {
+      let startTime = moment('20000101 ' + start, 'YYYYMMDD HH:mm')
+      startTime.add(minutes, 'minutes')
+
+      return startTime.format('HH:mm')
     }
   }
 })

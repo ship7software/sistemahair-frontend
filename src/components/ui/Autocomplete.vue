@@ -1,9 +1,9 @@
 <template>
-  <div :class="{ 'input-group': !short && $cruds[api.replace('/', '')] }">
-    <multiselect v-model="model" :showLabels="false" :track-by="optionValue" :label="optionText" :options="options" :searchable="true" :allow-empty="true" :internalSearch="false" @search-change="load" :loading="loading" :block-keys="['Tab', 'Enter']" placeholder="Digite para buscar">
+  <div :class="{ 'input-group': !disabled && !short && $cruds[api.replace('/', '')] }">
+    <multiselect v-model="model" :showLabels="false" :track-by="optionValue" :label="optionText" :options="options" :searchable="true" :allow-empty="true" :disabled="disabled" :internalSearch="false" @search-change="load" :loading="loading" :block-keys="['Tab', 'Enter']" placeholder="Digite para buscar">
       <span slot="noResult">{{ message }}.</span>
     </multiselect>
-      <span class="input-group-btn" v-if="!short && $cruds[api.replace('/', '')]">           
+      <span class="input-group-btn" v-if="!disabled && !short && $cruds[api.replace('/', '')]">           
         <button @click="$refs.shortCrud.open()" title="Cadastro novo" type="submit" class="btn btn-add-multiselect btn-primary btn-flat">
           <i class="fa fa-plus"></i>
         </button>
@@ -20,7 +20,8 @@ export default {
     payload: Object,
     optionValue: { type: String, default: '_id' },
     optionText: { type: String },
-    short: { type: Boolean, default: false }
+    short: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false }
   },
   data: () => {
     return {
@@ -70,3 +71,8 @@ export default {
   }
 }
 </script>
+<style>
+.multiselect--disabled {
+  background: none
+}
+</style>

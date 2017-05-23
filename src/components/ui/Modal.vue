@@ -41,6 +41,7 @@ export default {
     },
     hide () {
       this.visible = false
+      this.$emit('hide')
     }
   }
 }

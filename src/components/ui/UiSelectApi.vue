@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'input-group': !short && $cruds[api.replace('/', '')] }">
-    <multiselect v-model="model" :showLabels="false" :track-by="optionText" :label="optionText"  :options="options" :searchable="false" :loading="loading" :clearOnSelect="true" :allow-empty="false" :internalSearch="false" placeholder="Selecionar"></multiselect>
+    <multiselect v-model="model" :showLabels="false" :track-by="optionText" :label="optionText"  :options="options" :searchable="false" :loading="loading" :clearOnSelect="true" :allow-empty="false" :internalSearch="false" placeholder="Selecionar" @input="(val) => { $emit('change', val) }"></multiselect>
     <span class="input-group-btn" v-if="!short && $cruds[api.replace('/', '')]">           
       <button @click="$refs.shortCrud.open()" title="Cadastro novo" type="submit" class="btn btn-add-multiselect btn-primary btn-flat">
         <i class="fa fa-plus"></i>

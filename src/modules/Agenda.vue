@@ -11,7 +11,7 @@
             :picker-options="dataAgendaOptions"
             :clearable="false"
             :editable="false"
-            format="'Agenda do dia: 'dd/MM/yyyy" @change="load">
+            format="'Agenda: 'dd/MM/yyyy" @change="load">
           </el-date-picker>
           <div class="box-tools pull-right">
             <button @click="add" type="submit" class="btn add-button btn-block btn-success btn-flat">
@@ -21,7 +21,7 @@
           </div>            
         </div>      
         <div class="box-body">
-          <schedule :startTime="startTime" :endTime="endTime" :step="step" :items="agendamentos"></schedule>
+          <schedule :startTime="startTime" :endTime="endTime" :step="step" :items="agendamentos" @onSelect="edit"></schedule>
         </div>       
         <!-- /.box-footer-->
       </div>
@@ -83,7 +83,12 @@ export default {
   },
   methods: {
     add () {
+      this.addTitle = 'Nova Agenda'
       this.$refs.addModal.show()
+    },
+    edit (item) {
+      this.addTitle = 'Editar Agenda'
+      this.$refs.addModal.edit(item)
     },
     load () {
       let dataFormatada = moment(this.dataAgenda).format('YYYY-MM-DD')

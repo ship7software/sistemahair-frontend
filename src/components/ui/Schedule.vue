@@ -1,20 +1,20 @@
 <template>
-  <div class="cd-schedule js-full" style="transform: rotateX(180deg);-ms-transform:rotateX(180deg); /* IE 9 */-webkit-transform:rotateX(180deg);overflow-y: scroll;">
-    <div class="timeline-schedule" :style="columnStyleWidth">
+  <div ref="cdSchedule" class="cd-schedule js-full" style="transform: rotateX(180deg);-ms-transform:rotateX(180deg); /* IE 9 */-webkit-transform:rotateX(180deg);overflow-y: scroll;">
+    <div ref="timelineSchedule" class="timeline-schedule" :style="columnStyleWidth">
       <ul>
         <li v-for="item in timeList"><span>{{ item }}</span></li>
       </ul>
     </div> <!-- .timeline-schedule -->
     <div class="events" v-if="items.length > 0" :style="columnStyleWidth">
       <ul>
-        <li class="events-group" v-for="item in items">
+        <li class="events-group" v-for="(item, idx) in items" :style="styleWidth">
           <div class="top-info">
             <span>{{ getShortName(item.profissional.nome) }}</span>
           </div>
 
           <ul :style="columnStyle">
-            <li v-for="agenda in item.agendas" class="single-event" data-event="event-1" :style="getEventPositionStyle(agenda.horaInicio, agenda.horaFim)">
-              <a href="#0"><span class="event-date">{{ agenda.horaInicio }} - {{ agenda.horaFim }}</span>
+            <li v-for="agenda in item.agendas" class="single-event" :data-event="getDataEvent(idx)" :style="getEventPositionStyle(agenda.horaInicio, agenda.horaFim)">
+              <a href="#" @click="$emit('onSelect', agenda)"><span class="event-date">{{ agenda.horaInicio }} - {{ agenda.horaFim }}</span>
                 <em class="event-name">{{ agenda.clienteId.nome }}</em>
               </a>
             </li>
@@ -40,12 +40,17 @@ export default {
     return {
       timeList: [],
       columnStyle: '',
-      columnStyleWidth: ''
+      columnStyleWidth: '',
+      cdSchedule: {},
+      styleWidth: ''
     }
   },
   watch: {
     items: function (newValue) {
-      this.columnStyleWidth = 'transform: rotateX(180deg);-ms-transform:rotateX(180deg); /* IE 9 */-webkit-transform:rotateX(180deg);overflow-y: scroll; width: ' + ((this.items.length * 120) + 60) + 'px'
+      this.columnStyleWidth = 'transform: rotateX(180deg);-ms-transform:rotateX(180deg); /* IE 9 */-webkit-transform:rotateX(180deg);overflow-y: scroll; min-width: ' + ((this.items.length * 109) + 60) + 'px; width: calc(100% - 48px)'
+      if (this.items.length > 0) {
+        this.styleWidth = 'width: ' + (97 / this.items.length) + '%'
+      }
     }
   },
   created () {
@@ -53,7 +58,10 @@ export default {
     this.columnStyle = 'height: ' + (this.timeList.length * 50) + 'px'
   },
   mounted () {
-    this.columnStyleWidth = 'transform: rotateX(180deg);-ms-transform:rotateX(180deg); /* IE 9 */-webkit-transform:rotateX(180deg);overflow-y: scroll; width: ' + ((this.items.length * 120) + 60) + 'px'
+    this.columnStyleWidth = 'transform: rotateX(180deg);-ms-transform:rotateX(180deg); /* IE 9 */-webkit-transform:rotateX(180deg);overflow-y: scroll; min-width: ' + ((this.items.length * 109) + 60) + 'px; width: calc(100% - 48px)'
+    if (this.items.length > 0) {
+      this.styleWidth = 'width: ' + (97 / this.items.length) + '%'
+    }
   },
   methods: {
     getEventPositionStyle (start, end) {
@@ -68,6 +76,9 @@ export default {
       let parts = name.split(' ')
       let ret = parts[0]
       return ret
+    },
+    getDataEvent (index) {
+      return 'event-' + ((index % 4) + 1)
     }
   }
 }
