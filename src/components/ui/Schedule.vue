@@ -9,12 +9,17 @@
       <ul>
         <li :class="{ 'short-top': short }" class="events-group" v-for="(item, idx) in visibleItems" :style="styleWidth">
           <div class="top-info">
-            <span v-if="!short">{{ getShortName(item.profissional.nome) }}</span>
+            <span v-if="!short">{{ getShortName(item) }}</span>
+            <span v-if="!short" class="pull-right-container" style="padding-left: 0">
+              <span class="label pull-right" :class="[{ 'label-success': item.agendas.length > 0 },{ 'label-warning': item.agendas.length == 0 }]" style="font-size: 13px">
+                {{ item.agendas.length }}
+              </span>
+            </span>
             <el-select v-if="short" v-model="selectedIndex" @change="(selected) => { visibleItems = [items[selected]] }" class="profissionalSelect">
               <el-option
                 v-for="(opt, optIdx) in items"
                 :key="optIdx"
-                :label="opt.nome"
+                :label="getShortName(opt) + ' (' + opt.agendas.length + ')'"
                 :value="optIdx">
               </el-option>
             </el-select>
@@ -96,8 +101,8 @@ export default {
 
       return height + top
     },
-    getShortName (name) {
-      let parts = name.split(' ')
+    getShortName (item) {
+      let parts = item.profissional.nome.split(' ')
       let ret = parts[0]
       return ret
     },
