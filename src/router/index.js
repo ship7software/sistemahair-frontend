@@ -4,6 +4,8 @@ import Login from '@/modules/Login'
 import Inicio from '@/modules/Inicio'
 import PageNotFound from '@/modules/404'
 import Agenda from '@/modules/Agenda'
+import ComandaLista from '@/modules/Comanda/Lista'
+import ComandaCrud from '@/modules/Comanda/Crud'
 import userService from './../services/user'
 import crud from './crud'
 
@@ -37,6 +39,26 @@ let defaultRoutes = [
     path: '/agenda',
     name: 'Agenda',
     component: Agenda
+  },
+  {
+    path: '/agenda',
+    name: 'Agenda',
+    component: Agenda
+  },
+  {
+    path: '/venda/comanda',
+    name: 'ComandaLista',
+    component: ComandaLista
+  },
+  {
+    path: '/venda/comanda/add',
+    name: 'ComandaCadastro',
+    component: ComandaCrud
+  },
+  {
+    path: '/venda/comanda/:id',
+    name: 'ComandaCadastro',
+    component: ComandaCrud
   },
   { path: '*', component: PageNotFound }
 ]
