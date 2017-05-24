@@ -81,8 +81,13 @@ export default {
     this.model.data = this.dataAgendamento
   },
   methods: {
-    show () {
+    show (profissional) {
       this.$refs.modal.show()
+      let $vm = this
+      $vm.$nextTick(() => {
+        $vm.model.profissionalId = profissional
+        $vm.$forceUpdate()
+      })
     },
     edit (item) {
       this.model = _.clone(item)

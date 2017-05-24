@@ -108,6 +108,12 @@ export default {
     },
     getDataEvent (index) {
       return 'event-' + ((index % 4) + 1)
+    },
+    getSelectedProfissional () {
+      if (this.short) {
+        return this.items[this.selectedIndex].profissional
+      }
+      return null
     }
   }
 }

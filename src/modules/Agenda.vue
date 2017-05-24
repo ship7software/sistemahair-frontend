@@ -22,7 +22,7 @@
         </div>      
         <div class="box-body">
           <schedule class="principalSchedule" :startTime="startTime" :endTime="endTime" :step="step" :items="agendamentos" @onSelect="edit"></schedule>
-          <schedule class="mobileSchedule" :startTime="startTime" :endTime="endTime" :step="step" :items="agendamentos" @onSelect="edit" :short="true"></schedule>
+          <schedule class="mobileSchedule" :startTime="startTime" :endTime="endTime" :step="step" :items="agendamentos" @onSelect="edit" :short="true" ref="shortSchedule"></schedule>
         </div>       
         <!-- /.box-footer-->
       </div>
@@ -85,7 +85,11 @@ export default {
   methods: {
     add () {
       this.addTitle = 'Nova Agenda'
-      this.$refs.addModal.show()
+      let prof = null
+      if (this.$refs.shortSchedule.$el.clientHeight > 0) {
+        prof = this.$refs.shortSchedule.getSelectedProfissional()
+      }
+      this.$refs.addModal.show(prof)
     },
     edit (item) {
       this.addTitle = 'Editar Agenda'
