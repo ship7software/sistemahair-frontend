@@ -28,7 +28,7 @@ export default {
   name: 'ShortCrud',
   props: {
     configuration: Object,
-    value: Object
+    value: [Object, Array]
   },
   data () {
     return {

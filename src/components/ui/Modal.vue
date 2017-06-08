@@ -8,7 +8,7 @@
           <span aria-hidden="true">×</span></button>
         <h4 class="modal-title">{{ title }}</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="height: 100%; overflow-y: scroll">
         <slot></slot>
       </div>
       <div class="modal-footer">
@@ -49,5 +49,11 @@ export default {
 <style>
 .modal-show {
   display: block
+}
+@media (min-width: 768px) {
+  .modal-dialog {
+      width: 767px;
+      margin: 30px auto;
+  }
 }
 </style>

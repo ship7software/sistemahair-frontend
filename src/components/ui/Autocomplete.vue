@@ -1,16 +1,26 @@
 <template>
-  <div :class="{ 'input-group': !disabled && !short && $cruds[api.replace('/', '')] }">
-    <multiselect v-model="model" :showLabels="false" :track-by="optionValue" :label="optionText" :options="options" :searchable="true" :allow-empty="true" :disabled="disabled" :internalSearch="false" @search-change="load" :loading="loading" :block-keys="['Tab', 'Enter']" placeholder="Digite para buscar">
-      <span slot="noResult">{{ message }}.</span>
-    </multiselect>
-      <span class="input-group-btn" v-if="!disabled && !short && $cruds[api.replace('/', '')]">           
-        <button @click="$refs.shortCrud.open()" title="Cadastro novo" type="submit" class="btn btn-add-multiselect btn-primary btn-flat">
+  <div :class="{ 'input-group': !short && $cruds[api.replace('/', '')] }">
+  <el-select v-model="model" :disabled="disabled" filterable remote clearable placeholder="Digite para buscar" :remoteMethod="load" :loading="loading">
+    <el-option
+      v-for="item in options"
+      :key="item[optionValue]"
+      :label="item[optionText]"
+      :value="item">
+    </el-option>
+  </el-select>
+      <span class="input-group-btn" v-if="!short && $cruds[api.replace('/', '')]">           
+        <button @click="$refs.shortCrud.open()" title="Cadastro novo" :disabled="disabled" type="submit" class="btn btn-primary btn-flat">
           <i class="fa fa-plus"></i>
         </button>
       </span>
       <short-crud ref="shortCrud" v-if="!short && $cruds[api.replace('/', '')]" :configuration="$cruds[api.replace('/', '')]" v-model="model"></short-crud>
     </div>
 </template>
+<style>
+  .input-group .el-select {
+    width: 100%
+  }
+</style>
 <script>
 export default {
   name: 'Autocomplete',

@@ -11,13 +11,13 @@
     <div class="form-group" :class="{ 'has-error': errors.has('principal.clienteId') }">
       <label class="col-sm-3 control-label">Cliente</label>
       <div class="col-sm-9">
-        <autocomplete ref="clienteId" v-validate="'required'" v-model="model.clienteId" name="clienteId" data-vv-scope="principal" data-vv-name="clienteId" api="/cliente" :payload="{ sort: { nome: 1 } }" optionValue="_id" optionText="nome" key="clienteId" :disabled="Boolean(model._id)"></autocomplete>
+        <ui-select-api ref="clienteId" v-validate="'required'" v-model="model.clienteId" name="clienteId" data-vv-scope="principal" data-vv-name="clienteId" api="/cliente" :payload="{ sort: { nome: 1 } }" optionValue="_id" optionText="nome" key="clienteId" :disabled="Boolean(model._id)" :autocomplete="true"></ui-select-api>
       </div>
     </div>
     <div class="form-group" :class="{ 'has-error': errors.has('principal.servicoId') }">
       <label class="col-sm-3 control-label">Serviço</label>
       <div class="col-sm-9">
-        <ui-select-api ref="servicoId" v-validate="'required'" v-model="model.servicoId" name="servicoId" data-vv-scope="principal" data-vv-name="servicoId" api="/servico" :payload="{ sort: { descricao: 1 } }" optionValue="_id" optionText="descricao" key="servicoId" @change="recalcularFim"></ui-select-api>
+        <ui-select-api ref="servicoId" v-validate="'required'" v-model="model.servicos" name="servicos" data-vv-scope="principal" data-vv-name="servicos" api="/servico" :payload="{ sort: { descricao: 1 } }" optionValue="_id" optionText="descricao" key="servicos" @change="recalcularFim" :multiple="true"></ui-select-api>
       </div>
     </div>
     <div class="form-group" :class="{ 'has-error': errors.has('principal.profissionalId') }">
@@ -51,7 +51,6 @@
     </div>
     <template slot="footer">
       <button type="button" class="btn btn-success pull-left" @click="save(false)">Salvar</button>
-      <button type="button" class="btn btn-success pull-left" v-if="!model._id" @click="save(true)">Salvar e Adicionar Serviço</button>
       <button type="button" class="btn btn-danger pull-left" v-if="model._id" @click="cancel(model)">Cancelar Agendamento</button>
     </template>
   </modal>
@@ -74,7 +73,8 @@ export default {
         data: this.dataAgendamento,
         horaInicio: '',
         horaFim: ''
-      }
+      },
+      multiple: true
     }
   },
   created () {
@@ -82,6 +82,7 @@ export default {
   },
   methods: {
     show (profissional) {
+      this.reset()
       this.$refs.modal.show()
       let $vm = this
       $vm.$nextTick(() => {
@@ -90,13 +91,32 @@ export default {
       })
     },
     edit (item) {
-      this.model = _.clone(item)
-      this.show()
+      let $vm = this
+      $vm.multiple = false
+      let newValue = _.clone(item)
+      let servicos = _.clone(newValue.servicos)
+      let profissional = newValue.profissionalId._id
+      delete newValue.servicos
+      delete newValue.profissionalId
+      $vm.model = _.clone(newValue)
+      $vm.model.servicos = _.map(servicos, '_id')
+      $vm.model.profissionalId = profissional
+      $vm.$refs.modal.show()
     },
     recalcularFim () {
-      if (this.model.servicoId && this.model.servicoId.duracaoPadrao && this.model.horaInicio !== '') {
-        this.model.horaFim = time.addMinutes(this.model.horaInicio, this.model.servicoId.duracaoPadrao)
-        this.$forceUpdate()
+      if (this.model.servicos && this.model.servicos.length > 0 && this.model.horaInicio !== '') {
+        let duracaoTotal = 0
+        for (let i = 0; i < this.model.servicos.length; i++) {
+          let item = this.$refs.servicoId.getOptionDetail(this.model.servicos[i])
+          if (item.duracaoPadrao) {
+            duracaoTotal += item.duracaoPadrao
+          }
+        }
+
+        if (duracaoTotal > 0) {
+          this.model.horaFim = time.addMinutes(this.model.horaInicio, duracaoTotal)
+          this.$forceUpdate()
+        }
       }
     },
     doCancel (id) {
@@ -126,7 +146,8 @@ export default {
       this.model = {
         data: this.dataAgendamento,
         horaInicio: '',
-        horaFim: ''
+        horaFim: '',
+        servicos: []
       }
     },
     resetAndClose () {
