@@ -1,5 +1,5 @@
 <template>
-  <transition name="el-fade-in">
+  <transition name="fade">
     <router-view :key="$route.path"></router-view>
   </transition>
 </template>
@@ -9,6 +9,8 @@
 export default {
   name: 'app',
   mounted () {
+    console.log($.AdminLTE)
+    $.AdminLTE.tree('.sidebar')
     $('.sidebar').slimscroll({
       height: '3px',
       alwaysVisible: false,
@@ -19,6 +21,13 @@ export default {
 </script>
 
 <style>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0
+}
+
 .login-page {
   background-color: #ecf0f5 !important;
 }

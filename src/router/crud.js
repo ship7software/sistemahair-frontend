@@ -21,7 +21,7 @@ let configs = [
   pacote,
   pessoa('/cliente', 'Clientes'),
   pessoa('/fornecedor', 'Fornecedores'),
-  pessoa('/profissional', 'Profissionais', { title: 'Comissão', model: 'comissao', type: 'money', min: 0 })
+  pessoa('/profissional', 'Profissionais', { title: 'Comissão', model: 'comissao', type: 'percent', min: 0 })
 ]
 
 let cruds = {}

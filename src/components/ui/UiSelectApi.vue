@@ -51,18 +51,15 @@ export default {
       this.model = this.multiple ? (this.model || []).concat([newValue[this.optionValue]]) : (this.value || {})[this.optionValue]
     },
     model (newValue) {
-      if (this.doEmit) {
-        this.$emit('input', newValue)
-        this.$emit('change', newValue)
-      }
-      this.doEmit = true
+      this.$emit('input', newValue)
+      this.$emit('change', newValue)
     },
     value (newValue) {
       this.doEmit = false
       if (typeof newValue === 'string' || Array.isArray(newValue)) {
         this.model = newValue
       } else {
-        this.model = newValue[this.optionValue]
+        this.model = (newValue || {})[this.optionValue]
       }
     }
   },

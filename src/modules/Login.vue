@@ -172,7 +172,6 @@ export default {
         $vm.loading = false
         $vm.sucessoConfirmacao = false
         $vm.erroConfirmacao = false
-        console.log(result)
         if (result.data && result.data.token) {
           userService.autoLogin(result.data, () => {
             $vm.$router.push('/')

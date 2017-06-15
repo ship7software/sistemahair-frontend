@@ -41,23 +41,18 @@ let defaultRoutes = [
     component: Agenda
   },
   {
-    path: '/agenda',
-    name: 'Agenda',
-    component: Agenda
-  },
-  {
     path: '/venda/comanda',
     name: 'ComandaLista',
     component: ComandaLista
   },
   {
     path: '/venda/comanda/add',
-    name: 'ComandaCadastro',
+    name: 'ComandaCadastroNovo',
     component: ComandaCrud
   },
   {
     path: '/venda/comanda/:id',
-    name: 'ComandaCadastro',
+    name: 'ComandaCadastroEdit',
     component: ComandaCrud
   },
   { path: '*', component: PageNotFound }

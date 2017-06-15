@@ -3,7 +3,7 @@
     <div class="form-group">
       <label class="col-sm-3 control-label">CEP</label>
       <div class="col-sm-5">
-        <input type="tel" class="form-control" v-model="value.cep" @blur="buscaCep">
+        <input @focus="$event.target.select()" type="tel" class="form-control" v-model="value.cep" @blur="buscaCep">
       </div>
     </div>
     <div class="form-group">

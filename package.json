@@ -30,13 +30,14 @@
     "text-mask-addons": "^3.5.1",
     "v-autocomplete": "^1.1.1",
     "vee-validate": "^2.0.0-rc.3",
-    "vue": "^2.2.6",
+    "vue": "^2.3.0",
     "vue-datetime-picker": "^0.2.1",
     "vue-multiselect": "^2.0.0-beta.15",
     "vue-numeric": "^1.5.1",
     "vue-router": "^2.3.1",
     "vue-text-mask": "^5.1.1",
-    "vue-the-mask": "^0.7.0"
+    "vue-the-mask": "^0.7.0",
+    "vuex": "^2.3.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

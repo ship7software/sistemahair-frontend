@@ -87,9 +87,9 @@ export default {
       $vm.$forceUpdate()
     },
     adicionarItemLista () {
-      this.lista.push({
-        editing: true
-      })
+      let newValue = (this.configuration.default || {})
+      newValue.editing = true
+      this.lista.push(newValue)
     }
   }
 }

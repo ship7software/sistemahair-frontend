@@ -7,8 +7,9 @@
       <div v-else class="form-group" :class="{ 'has-error': errors.has(field.model) }">
         <label class="col-sm-3 control-label">{{ field.title }}</label>
         <div class="col-sm-9">
-          <vue-numeric currency="R$" :precision="2" separator="." v-if="field.type == 'money'" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" :min="field.min || 0" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model"></vue-numeric>
-          <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else-if="field.type == 'integer'" type="number" :min="field.min || 0" step="1" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" />
+          <vue-numeric @focus.native="$event.target.select()" currency="R$" :precision="2" separator="." v-if="field.type == 'money'" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" :min="field.min || 0" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model"></vue-numeric>
+          <vue-numeric @focus.native="$event.target.select()" currency="%" :precision="2" separator="." v-else-if="field.type == 'percent'" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" :min="field.min || 0" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model"></vue-numeric>
+          <input @focus.native="$event.target.select()" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else-if="field.type == 'integer'" type="number" :min="field.min || 0" step="1" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" />
           <el-select :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'select' && field.options" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model">
             <el-option
               v-for="item in field.options"
@@ -19,13 +20,13 @@
           </el-select>
           <ui-select-api :short="short" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'select' && field.api" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText"></ui-select-api>    
           <autocomplete :short="short" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'autocomplete'" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText" :key="field.model"></autocomplete>                        
-          <the-mask class="form-control" v-else-if="field.type === 'telefone'" :mask="['(##) ####-####', '(##) #####-####']" :data-vv-scope="scope" :data-vv-name="field.model" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
+          <the-mask @focus.native="$event.target.select()" class="form-control" v-else-if="field.type === 'telefone'" :mask="['(##) ####-####', '(##) #####-####']" :data-vv-scope="scope" :data-vv-name="field.model" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
           </the-mask>             
-          <the-mask class="form-control" v-else-if="field.type === 'cpfCnpj'" :mask="['###.###.###-##', '##.###.###/####-##']" :data-vv-scope="scope" :data-vv-name="field.model" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
+          <the-mask @focus.native="$event.target.select()" class="form-control" v-else-if="field.type === 'cpfCnpj'" :mask="['###.###.###-##', '##.###.###/####-##']" :data-vv-scope="scope" :data-vv-name="field.model" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
           </the-mask>
-          <the-mask class="form-control" v-else-if="field.mask" :mask="field.mask" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" :type="field.inputType || 'text'">
+          <the-mask @focus.native="$event.target.select()" class="form-control" v-else-if="field.mask" :mask="field.mask" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" :type="field.inputType || 'text'">
           </the-mask>                       
-          <el-date-picker :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" 
+          <el-date-picker @focus.native="$event.target.select()" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" 
             type="date" v-else-if="field.type === 'date'" :placeholder="field.title" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" format="dd/MM/yyyy">
           </el-date-picker>                           
           <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else type="text" :placeholder="field.title" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model">            
@@ -39,8 +40,9 @@
         {{ getTextTableForm(field, model[field.model]) }}
       </div>
       <div v-show="model.editing">
-        <vue-numeric currency="R$" :precision="2" separator="." v-if="field.type == 'money'" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" :min="field.min || 0" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model"></vue-numeric>
-        <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else-if="field.type == 'integer'" type="number" :min="field.min || 0" step="1" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" />
+        <vue-numeric @focus.native="$event.target.select()" currency="R$" :precision="2" separator="." v-if="field.type == 'money'" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" :min="field.min || 0" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model"></vue-numeric>
+        <vue-numeric @focus.native="$event.target.select()" currency="%" :precision="2" separator="." v-else-if="field.type == 'percent'" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" :min="field.min || 0" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model"></vue-numeric>
+        <input @focus.native="$event.target.select()" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else-if="field.type == 'integer'" type="number" :min="field.min || 0" step="1" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" />
         <el-select :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'select' && field.options" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model">
           <el-option
             v-for="item in field.options"
@@ -51,13 +53,13 @@
         </el-select>
         <ui-select-api :short="short" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'select' && field.api" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText"></ui-select-api>    
         <autocomplete :short="short" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" v-else-if="field.type == 'autocomplete'" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" :api="field.api" :payload="field.payload" :optionValue="field.optionValue" :optionText="field.optionText"></autocomplete>                        
-        <the-mask class="form-control" v-else-if="field.type === 'telefone'" :mask="['(##) ####-####', '(##) #####-####']" :data-vv-scope="scope" :data-vv-name="field.model" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
+        <the-mask @focus.native="$event.target.select()" class="form-control" v-else-if="field.type === 'telefone'" :mask="['(##) ####-####', '(##) #####-####']" :data-vv-scope="scope" :data-vv-name="field.model" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
         </the-mask>             
-        <the-mask class="form-control" v-else-if="field.type === 'cpfCnpj'" :mask="['###.###.###-##', '##.###.###/####-##']" :data-vv-scope="scope" :data-vv-name="field.model" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
+        <the-mask @focus.native="$event.target.select()" class="form-control" v-else-if="field.type === 'cpfCnpj'" :mask="['###.###.###-##', '##.###.###/####-##']" :data-vv-scope="scope" :data-vv-name="field.model" type="tel" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]">
         </the-mask>
-        <the-mask class="form-control" v-else-if="field.mask" :mask="field.mask" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" :type="field.inputType || 'text'">
+        <the-mask @focus.native="$event.target.select()" class="form-control" v-else-if="field.mask" :mask="field.mask" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" :type="field.inputType || 'text'">
         </the-mask>                  
-        <el-date-picker :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" 
+        <el-date-picker @focus.native="$event.target.select()" :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" 
           type="date" v-else-if="field.type === 'date'" :placeholder="field.title" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model" format="dd/MM/yyyy">
         </el-date-picker>              
         <input :ref="field.model + 'Field'" v-validate="field.validation || {}" v-model="model[field.model]" class="form-control" v-else type="text" :placeholder="field.title" :name="field.model" :data-vv-scope="scope" :data-vv-name="field.model">         
@@ -83,7 +85,29 @@ export default {
       model: this.value || {},
       options: {},
       saveError: null,
-      loading: false
+      loading: false,
+      dataAgendaOptions: {
+        shortcuts: [{
+          text: 'Hoje',
+          onClick (picker) {
+            picker.$emit('pick', new Date())
+          }
+        }, {
+          text: 'Ontem',
+          onClick (picker) {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24)
+            picker.$emit('pick', date)
+          }
+        }, {
+          text: 'Amanhã',
+          onClick (picker) {
+            const date = new Date()
+            date.setTime(date.getTime() + 3600 * 1000 * 24)
+            picker.$emit('pick', date)
+          }
+        }]
+      }
     }
   },
   watch: {
@@ -97,7 +121,7 @@ export default {
   },
   created () {
     for (var i = 0; i < this.configuration.form.fields.length; i++) {
-      if (this.configuration.form.fields[i].type === 'money' && !this.model[this.configuration.form.fields[i].model]) {
+      if ((this.configuration.form.fields[i].type === 'money' || this.configuration.form.fields[i].type === 'percent') && !this.model[this.configuration.form.fields[i].model]) {
         this.model[this.configuration.form.fields[i].model] = ''
       }
     }

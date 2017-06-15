@@ -79,7 +79,6 @@ export default {
   },
   watch: {
     novaAgenda: function (novoValor) {
-      console.log(novoValor)
     }
   },
   methods: {

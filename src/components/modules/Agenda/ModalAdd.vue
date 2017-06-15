@@ -50,14 +50,16 @@
       </div>
     </div>
     <template slot="footer">
-      <button type="button" class="btn btn-success pull-left" @click="save(false)">Salvar</button>
-      <button type="button" class="btn btn-danger pull-left" v-if="model._id" @click="cancel(model)">Cancelar Agendamento</button>
+      <button type="button" v-show="!model.comandaId" class="btn btn-success pull-left" @click="save(false)">Salvar</button>
+      <button type="button" v-show="!model.comandaId" class="btn btn-info pull-left" v-if="model._id" @click="abrirComanda(model)">Abrir Comanda</button>
+      <button type="button" v-show="!model.comandaId" class="btn btn-danger pull-left" v-if="model._id" @click="cancel(model)">Cancelar Agendamento</button>
     </template>
   </modal>
 </template>
 <script>
 import _ from 'lodash'
 import time from '../../../util/time.js'
+import moment from 'moment'
 
 export default {
   name: 'AgendaModalAdd',
@@ -72,7 +74,9 @@ export default {
       model: {
         data: this.dataAgendamento,
         horaInicio: '',
-        horaFim: ''
+        horaFim: '',
+        servicos: [],
+        profissionalId: {}
       },
       multiple: true
     }
@@ -147,7 +151,8 @@ export default {
         data: this.dataAgendamento,
         horaInicio: '',
         horaFim: '',
-        servicos: []
+        servicos: [],
+        profissionalId: {}
       }
     },
     resetAndClose () {
@@ -163,8 +168,8 @@ export default {
           if (continuar) {
             $vm.model.horaInicio = String($vm.model.horaFim)
             $vm.model.horaFim = ''
-            $vm.model.servicoId = null
-            $vm.model.profissionalId = null
+            $vm.model.servicoId = {}
+            $vm.model.profissionalId = {}
           } else {
             $vm.resetAndClose()
           }
@@ -172,6 +177,11 @@ export default {
           console.log(err)
         })
       }).catch(() => {
+      })
+    },
+    abrirComanda (agenda) {
+      this.$api.save('/comanda/abrir/' + agenda.clienteId + '?data=' + moment(agenda.data).format('YYYY-MM-DD'), {}).then((ret) => {
+        console.log(ret)
       })
     }
   }

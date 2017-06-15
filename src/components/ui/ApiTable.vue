@@ -11,6 +11,7 @@
       width="150">
       <template scope="scope">
         <div class="btn-group">
+        <button v-for="oa in (config.otherActions || [])" @click="$emit(oa.name, scope.row._id, scope.row)" type="button" :class="['btn', 'btn-' + oa.btnClass]" :title="oa.title"><i :class="['fa', 'fa-' + oa.iconClass]"></i></button>
         <button @click="changeActivation(scope.row._id, scope.row[config.descriptionField], false)" type="button" v-if="config.hasActivate && scope.row.ativo" class="btn btn-warning" title="Desativar"><i class="fa fa-pause"></i></button>
         <button @click="changeActivation(scope.row._id, scope.row[config.descriptionField], true)" type="button" v-if="config.hasActivate && !scope.row.ativo" class="btn btn-success" title="Ativar"><i class="fa fa-play"></i></button>
         <button @click="edit(scope.row._id)" type="button" v-if="config.canEdit" class="btn btn-info" title="Editar"><i class="fa fa-edit"></i></button>
@@ -61,7 +62,7 @@ export default {
           $vm.$emit('finish', response.data.total)
         } else {
           $vm.items = response.data
-          $vm.$emit('finish', response.data.items.length)
+          $vm.$emit('finish', response.data.length)
         }
       }).catch((err) => console.log(err))
     },

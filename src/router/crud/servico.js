@@ -31,7 +31,7 @@ export default {
     fields: [
       { title: 'Descrição', model: 'descricao', validation: 'required' },
       { title: 'Preço', model: 'preco', type: 'money', min: 0 },
-      { title: 'Comissão', model: 'comissao', type: 'money', min: 0 },
+      { title: 'Comissão', model: 'comissao', type: 'percent', min: 0 },
       {
         title: 'Duração',
         model: 'duracaoPadrao',
